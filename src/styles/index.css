@@ -1,1 +1,9 @@
-@import "card.css";
+@import "cardList.css";
+@import "cardItem.css";
+@import "navbar.css";
+@import "input.css";
+
+a {
+	text-decoration: none;
+	color: inherit;
+}
