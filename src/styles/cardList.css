@@ -4,6 +4,11 @@
   flex-wrap: wrap;
 }
 
+.card-row {
+  width: 71.5%;
+  margin: auto;
+}
+
 .star-card {
   display: flex;
   height: 100%;
@@ -11,7 +16,9 @@
 
 .card-img {
   height: 15em;
-  object-fit: cover;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
 }
 
 .card-body {

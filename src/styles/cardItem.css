@@ -1,4 +1,5 @@
 .star-card--item {
+  height: 300px;
   width: 50%;
   display: flex;
   flex-direction: row;
@@ -14,6 +15,9 @@
 }
 
 .star-card__img--item {
-  height: 300px;
-  width: auto;
+  height: 100%;
+  width: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
 }

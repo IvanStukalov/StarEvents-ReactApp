@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card } from "react-bootstrap";
-import { Star } from "../../models/models.ts";
+import { Star } from "../models/models.ts";
 
 interface Props {
   star: Star;
@@ -16,7 +16,9 @@ const CardItem: React.FC<Props> = ({ star }) => {
         <Card.Text>Расстояние: {star.distance} св. лет</Card.Text>
         <Card.Text>Видимая звездная величина: {star.magnitude}</Card.Text>
       </Card.Body>
-      <Card.Img variant="top" src={star.image} className="star-card__img--item" />
+      <div className="star-card__img--item"
+        style={{ backgroundImage: `url(${star.image}), url('Star_Mock.jpeg')` }}
+      ></div>
     </Card>
   );
 };
