@@ -1,0 +1,14 @@
+.range__container {
+	width: 70%;
+	margin: auto;
+}
+
+.range__block {
+	display: flex;
+	justify-content: space-between;
+	margin-top: 1em;
+}
+
+.range {
+	width: 45%;
+}

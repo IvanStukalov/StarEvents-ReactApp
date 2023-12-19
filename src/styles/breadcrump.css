@@ -1,0 +1,7 @@
+.breadcrump__item {
+	display: flex;
+}
+
+.breadcrump__part {
+	margin-right: 1em;
+}

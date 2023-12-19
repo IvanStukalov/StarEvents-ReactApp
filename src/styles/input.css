@@ -1,4 +1,14 @@
 .input {
 	width: 70%;
-	margin: 1em auto;
+	margin: 1em auto;	
+}
+
+.input__container {
+	display: flex;
+	width: 100%;
+	justify-content: space-between;
+}
+
+.input__field {
+	width: 90%;
 }

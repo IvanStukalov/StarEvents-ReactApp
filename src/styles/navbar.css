@@ -1,3 +1,7 @@
 .navbar {
 	border-bottom: 1px solid white;
 }
+
+.container {
+	width: 50%;
+}

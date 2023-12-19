@@ -10,7 +10,6 @@ interface Props {
 
 const StarItemPage: React.FC<Props> = ({ emergeData }) => {
 	const { id } = useParams();
-	console.log(id)
 	const [star, setStar] = useState<Star>();
 
 	useEffect(() => {
@@ -22,11 +21,11 @@ const StarItemPage: React.FC<Props> = ({ emergeData }) => {
 			const response = await fetch(`http://localhost:3000/api/star/${id}`);
 			const data = await response.json();
 			setStar(data);
-			emergeData(data.name);
+			emergeData(data.star_id, data.name);
 		} catch (error) {
 			console.log(error)
 			setStar(StarListMock[Number(id)]);
-			emergeData(StarListMock[Number(id)].name);
+			emergeData(StarListMock[Number(id)].star_id, StarListMock[Number(id)].name);
 		}
 	}
 

@@ -1,21 +1,31 @@
-import { Breadcrumb } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import { Link } from 'react-router-dom';
 
 interface Props {
-  path: String | undefined,
+  path: string | undefined,
+  slug: string | undefined,
 }
 
-const NavBar: React.FC<Props> = ({ path }) => {
+const NavBar: React.FC<Props> = ({ path, slug }) => {
+  console.log(1)
+
   return (
     <Navbar bg="dark" data-bs-theme="dark" className="navbar">
-      <Breadcrumb>
-        <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
-        { path?.length &&
-          <Breadcrumb.Item href="/:id">{path}</Breadcrumb.Item>
-        }
-      </Breadcrumb>
+
+      <Link to="/" className="breadcrump__item breadcrump__part">Home</Link>
+
+      {slug ?
+        <Link to={`/star/${path}`} className="breadcrump__item">
+          <div className="breadcrump__part">/</div>
+          <div className="breadcrump__part">{slug}</div>
+        </Link>
+        : path &&
+        <Link to={`${path}`} className="breadcrump__item">
+          <div className="breadcrump__part">/</div>
+          <div className="breadcrump__part">{path}</div>
+        </Link>
+      }
 
       <Container>
         <Link to="/">

@@ -9,7 +9,7 @@ interface Props {
 	emergeData: Function,
 }
 
-const StarListPage: React.FC<Props> = ({starList, getStarList, emergeData}) => {
+const StarListPage: React.FC<Props> = ({ starList, getStarList, emergeData }) => {
 	useEffect(() => {
 		emergeData();
 	}, [])
