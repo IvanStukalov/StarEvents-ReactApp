@@ -17,7 +17,8 @@ const CardList: React.FC<Props> = ({ starList }) => {
 
               <Col key={star.star_id}>
                 <Card key={star.star_id} className="star-card">
-                  <Link to={String(star.star_id)}>
+
+                  <Link to={`star/${star.star_id}`}>
 
                     <div className="card-img"
                       style={{ backgroundImage: `url(${star.image}), url('Star_Mock.jpeg')` }}

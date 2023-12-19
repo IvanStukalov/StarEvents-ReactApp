@@ -17,7 +17,7 @@ const CardItem: React.FC<Props> = ({ star }) => {
         <Card.Text>Видимая звездная величина: {star.magnitude}</Card.Text>
       </Card.Body>
       <div className="star-card__img--item"
-        style={{ backgroundImage: `url(${star.image}), url('Star_Mock.jpeg')` }}
+        style={{ backgroundImage: `url(${star.image}), url('/Star_Mock.jpeg')` }}
       ></div>
     </Card>
   );
