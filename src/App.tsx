@@ -67,9 +67,9 @@ const App: React.FC = () => {
     <>
       <NavBar path={path} slug={slug} />
       <Routes>
+        <Route path="*" element={<StarListPage starList={starList} getStarList={getStarList} emergeData={emergeData} />} />
         <Route path="/" element={<StarListPage starList={starList} getStarList={getStarList} emergeData={emergeData} />} />
         <Route path="/star/:id" element={<StarItemPage emergeData={emergeData} />} />
-        <Route path="*" element={<StarListPage starList={starList} getStarList={getStarList} emergeData={emergeData} />} />
       </Routes>
 
     </>
