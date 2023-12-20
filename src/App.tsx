@@ -10,10 +10,10 @@ const App: React.FC = () => {
   const [starList, setStarList] = useState<Star[]>([]);
 
   useEffect(() => {
-    getStarList("");
+    getStarList("", 100, 0, 13.8, 0, 100, -27);
   }, []);
 
-  const getStarList = async (queryParam: string, distTop?: number, distBot?: number, ageTop?: number, ageBot?: number, magTop?: number, magBot?: number) => {
+  const getStarList = async (queryParam: string, distTop: number, distBot: number, ageTop: number, ageBot: number, magTop: number, magBot: number) => {
     try {
       let queryString = "http://localhost:3000/api/star?"
 
@@ -51,7 +51,10 @@ const App: React.FC = () => {
       setStarList(data.stars);
     } catch (error) {
       console.log(error)
-      setStarList(StarListMock);
+      setStarList(StarListMock.filter(star => star.distance > distBot && star.distance < distTop && 
+                                              star.age > ageBot && star.age < ageTop && 
+                                              star.magnitude > magBot && star.magnitude < magTop &&
+                                              star.name.includes(queryParam)));
     }
   }
 
