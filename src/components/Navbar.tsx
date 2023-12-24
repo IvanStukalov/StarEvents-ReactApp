@@ -8,8 +8,6 @@ interface Props {
 }
 
 const NavBar: React.FC<Props> = ({ path, slug }) => {
-  console.log(1)
-
   return (
     <Navbar bg="dark" data-bs-theme="dark" className="navbar">
 
