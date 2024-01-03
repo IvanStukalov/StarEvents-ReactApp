@@ -5,10 +5,10 @@ import { useParams } from "react-router-dom";
 import { StarListMock } from "../../models/mocks";
 
 interface Props {
-	emergeData: Function,
+	setURL: Function,
 }
 
-const StarItemPage: React.FC<Props> = ({ emergeData }) => {
+const StarItemPage: React.FC<Props> = ({ setURL }) => {
 	const { id } = useParams();
 	const [star, setStar] = useState<Star>();
 
@@ -21,11 +21,11 @@ const StarItemPage: React.FC<Props> = ({ emergeData }) => {
 			const response = await fetch(`http://localhost:3000/api/star/${id}`);
 			const data = await response.json();
 			setStar(data);
-			emergeData(data.star_id, data.name);
+			setURL(`/star/${data.star_id}`, data.name);
 		} catch (error) {
 			console.log(error)
 			setStar(StarListMock[Number(id)]);
-			emergeData(StarListMock[Number(id)].star_id, StarListMock[Number(id)].name);
+			setURL(`/star/${StarListMock[Number(id)].star_id}`, StarListMock[Number(id)].name);
 		}
 	}
 

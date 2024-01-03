@@ -5,6 +5,8 @@ import { Routes, Route } from "react-router-dom";
 import StarItemPage from "./components/pages/StarItemPage.tsx";
 import { StarListMock } from "./models/mocks.ts";
 import { Star } from "./models/models.ts";
+import RegPage from "./components/pages/RegPage.tsx";
+import AuthPage from "./components/pages/AuthPage.tsx";
 
 const App: React.FC = () => {
   const [starList, setStarList] = useState<Star[]>([]);
@@ -51,17 +53,17 @@ const App: React.FC = () => {
       setStarList(data.stars);
     } catch (error) {
       console.log(error)
-      setStarList(StarListMock.filter(star => star.distance > distBot && star.distance < distTop && 
-                                              star.age > ageBot && star.age < ageTop && 
-                                              star.magnitude > magBot && star.magnitude < magTop &&
-                                              star.name.includes(queryParam)));
+      setStarList(StarListMock.filter(star => star.distance > distBot && star.distance < distTop &&
+        star.age > ageBot && star.age < ageTop &&
+        star.magnitude > magBot && star.magnitude < magTop &&
+        star.name.includes(queryParam)));
     }
   }
 
   const [path, setPath] = useState<string>("");
   const [slug, setSlug] = useState<string>("");
 
-  const emergeData = (path: string, slug: string) => {
+  const setURL = (path: string, slug: string) => {
     setPath(path);
     setSlug(slug);
   }
@@ -70,9 +72,11 @@ const App: React.FC = () => {
     <>
       <NavBar path={path} slug={slug} />
       <Routes>
-        <Route path="*" element={<StarListPage starList={starList} getStarList={getStarList} emergeData={emergeData} />} />
-        <Route path="/" element={<StarListPage starList={starList} getStarList={getStarList} emergeData={emergeData} />} />
-        <Route path="/star/:id" element={<StarItemPage emergeData={emergeData} />} />
+        <Route path="*" element={<StarListPage starList={starList} getStarList={getStarList} setURL={setURL} />} />
+        <Route path="/" element={<StarListPage starList={starList} getStarList={getStarList} setURL={setURL} />} />
+        <Route path="/star/:id" element={<StarItemPage setURL={setURL} />} />
+        <Route path="/reg" element={<RegPage setURL={setURL} />} />
+        <Route path="/auth" element={<AuthPage setURL={setURL} />} />
       </Routes>
 
     </>

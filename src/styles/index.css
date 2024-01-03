@@ -4,6 +4,7 @@
 @import "input.css";
 @import "breadcrump.css";
 @import "range.css";
+@import "login_page.css";
 
 a {
 	text-decoration: none;

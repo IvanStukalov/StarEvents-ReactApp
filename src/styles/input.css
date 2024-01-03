@@ -1,5 +1,5 @@
 .input {
-	width: 70%;
+	width: 100%;
 	margin: 1em auto;	
 }
 
@@ -9,6 +9,7 @@
 	justify-content: space-between;
 }
 
-.input__field {
-	width: 90%;
+.main_page {
+	width: 70%;
+	margin: auto;
 }

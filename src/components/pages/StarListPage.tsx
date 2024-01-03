@@ -6,12 +6,12 @@ import { Star } from "../../models/models";
 interface Props {
 	starList: Star[],
 	getStarList: Function,
-	emergeData: Function,
+	setURL: Function,
 }
 
-const StarListPage: React.FC<Props> = ({ starList, getStarList, emergeData }) => {
+const StarListPage: React.FC<Props> = ({ starList, getStarList, setURL }) => {
 	useEffect(() => {
-		emergeData();
+		setURL();
 	}, [])
 
 	return (
