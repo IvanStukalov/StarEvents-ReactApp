@@ -21,7 +21,7 @@ const RegPage: React.FC<Props> = ({ setURL }) => {
 				<TextInput label="Логин" placeholder="Введите логин" type="text" />
 				<TextInput label="Пароль" placeholder="Введите пароль" type="password" />
 
-				<Button variant="primary">Primary</Button>
+				<Button variant="primary">Зарегистрироваться</Button>
 			</div>
 		</>
 	);
