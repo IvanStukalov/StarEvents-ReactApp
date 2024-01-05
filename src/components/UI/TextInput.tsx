@@ -1,13 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import { Form } from "react-bootstrap";
 
 interface Props {
 	label: string,
 	placeholder: string,
-	type: string
+	type: string,
+	value: string,
+	onChange: (val: string) => void,
 }
 
-const TextInput: React.FC<Props> = ({label, placeholder, type}) => {
+const TextInput: React.FC<Props> = ({label, placeholder, type, value, onChange}) => {
+	const [val, setVal] = useState(value);
+
+	const inputHandler = (event: any) => {
+		setVal(event.target.value);
+		onChange(event.target.value);
+	}
+
 	return (
 		<>
 			<Form.Group className="input">
@@ -18,6 +27,8 @@ const TextInput: React.FC<Props> = ({label, placeholder, type}) => {
 						className="input__field"
 						type={type}
 						placeholder={placeholder}
+						value={val}
+						onChange={inputHandler}
 					/>
 				</div>
 			</Form.Group>

@@ -9,8 +9,6 @@ interface Props {
 }
 
 const NavBar: React.FC<Props> = ({ path, slug }) => {
-  console.log(path, slug)
-
   return (
     <Navbar bg="dark" data-bs-theme="dark" className="navbar">
 
