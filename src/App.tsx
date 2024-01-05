@@ -8,6 +8,7 @@ import { Star } from "./models/models.ts";
 import RegPage from "./components/pages/RegPage.tsx";
 import AuthPage from "./components/pages/AuthPage.tsx";
 import { api } from "./api/index.ts";
+import { useUser } from "./hooks/useUser.ts";
 
 const App: React.FC = () => {
   const [starList, setStarList] = useState<Star[]>([]);
@@ -45,6 +46,9 @@ const App: React.FC = () => {
     setSlug(slug);
   }
 
+  const {authorize} = useUser();
+  authorize();
+  
   return (
     <>
       <NavBar path={path} slug={slug} />
