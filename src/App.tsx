@@ -9,13 +9,13 @@ import RegPage from "./components/pages/RegPage.tsx";
 import AuthPage from "./components/pages/AuthPage.tsx";
 import { api } from "./api/index.ts";
 import { useUser } from "./hooks/useUser.ts";
+import CartPage from "./components/pages/CartPage.tsx";
+import OrderListPage from "./components/pages/OrderListPage.tsx";
+import OrderItemPage from "./components/pages/OrderItemPage.tsx";
 
 const App: React.FC = () => {
   const [starList, setStarList] = useState<Star[]>([]);
-
-  useEffect(() => {
-    getStarList("", 100, 0, 13.8, 0, 100, -27);
-  }, []);
+  const [draftID, setDraftID] = useState(0);
 
   const getStarList = (queryParam: string, distTop: number, distBot: number, ageTop: number, ageBot: number, magTop: number, magBot: number) => {
     api.api.starList({
@@ -27,9 +27,12 @@ const App: React.FC = () => {
       mag_top: magTop ?? "",
       mag_bot: magBot ?? "",
     })
-      .then(res => setStarList(res.data.stars))
+      .then(res => {
+        setStarList(res.data.stars)
+        setDraftID(res.data.draft_id)
+      })
       .catch(error => {
-        console.log(error)
+        console.log(error.response)
         setStarList(StarListMock.filter(star =>
           star.distance > distBot && star.distance < distTop &&
           star.age > ageBot && star.age < ageTop &&
@@ -37,6 +40,10 @@ const App: React.FC = () => {
           star.name.includes(queryParam)));
       })
   }
+
+  useEffect(() => {
+    getStarList("", 100, 0, 13.8, 0, 100, -27);
+  }, []);
 
   const [path, setPath] = useState<string>("");
   const [slug, setSlug] = useState<string>("");
@@ -46,9 +53,15 @@ const App: React.FC = () => {
     setSlug(slug);
   }
 
-  const {authorize} = useUser();
-  authorize();
-  
+  const { authorize } = useUser();
+  (async () => {
+    try {
+      await authorize();
+    } catch (error: any) {
+      console.log(error.response)
+    }
+  })();
+
   return (
     <>
       <NavBar path={path} slug={slug} />
@@ -58,8 +71,10 @@ const App: React.FC = () => {
         <Route path="/star/:id" element={<StarItemPage setURL={setURL} />} />
         <Route path="/reg" element={<RegPage setURL={setURL} />} />
         <Route path="/auth" element={<AuthPage setURL={setURL} />} />
+        <Route path="/cart" element={<CartPage setURL={setURL} draftID={draftID} />} />
+        <Route path="/orders" element={<OrderListPage setURL={setURL} />} />
+        <Route path="/orders/:id" element={<OrderItemPage setURL={setURL} />} />
       </Routes>
-
     </>
   )
 }

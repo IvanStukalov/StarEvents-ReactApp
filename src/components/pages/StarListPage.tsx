@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
-import CardList from "../CardList";
+import CardList from "../cards/CardList";
 import Input from "../UI/Input";
-import { Star } from "../../models/models";
+import { ModelsStar } from "../../api/Api";
 
 interface Props {
-	starList: Star[],
+	starList: ModelsStar[],
 	getStarList: Function,
 	setURL: Function,
 }
@@ -18,7 +18,7 @@ const StarListPage: React.FC<Props> = ({ starList, getStarList, setURL }) => {
 		<>
 			<Input label="Поиск звезд" placeholder="Введите название звезды" sendRequest={getStarList} />
 
-			<CardList starList={starList} />
+			<CardList starList={starList} isMain={true} />
 		</>
 	)
 }

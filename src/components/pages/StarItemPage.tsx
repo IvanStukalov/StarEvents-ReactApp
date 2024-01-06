@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Star } from "../../models/models";
-import CardItem from "../CardItem";
 import { useParams } from "react-router-dom";
 import { StarListMock } from "../../models/mocks";
+import { Card } from "react-bootstrap";
 
 interface Props {
 	setURL: Function,
@@ -31,11 +31,21 @@ const StarItemPage: React.FC<Props> = ({ setURL }) => {
 
 	return (
 		<>
-			<div>
-				{
-					star &&	<CardItem star={star} />
-				}
-			</div>
+			{
+				star &&
+				<Card className="star-card--item" >
+					<Card.Body className="star-card__body">
+						<Card.Title className="star-card__title">{star.name}</Card.Title>
+						<Card.Text>{star.description}</Card.Text>
+						<Card.Text>Возраст: {star.age} млрд лет</Card.Text>
+						<Card.Text>Расстояние: {star.distance} св. лет</Card.Text>
+						<Card.Text>Видимая звездная величина: {star.magnitude}</Card.Text>
+					</Card.Body>
+					<div className="star-card__img--item"
+						style={{ backgroundImage: `url(${star.image}), url('/Star_Mock.jpeg')` }}
+					></div>
+				</Card>
+			}
 		</>
 	)
 }

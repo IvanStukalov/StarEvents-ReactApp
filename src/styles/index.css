@@ -4,9 +4,17 @@
 @import "input.css";
 @import "breadcrump.css";
 @import "range.css";
-@import "login_page.css";
+@import "loginPage.css";
+@import "cartPage.css";
 
 a {
 	text-decoration: none;
 	color: inherit;
+}
+
+.divider {
+	display: block;
+	width: 1px;
+	height: 1.5em;
+	background-color: white;
 }

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import TextInput from "../UI/TextInput";
 import { Button } from "react-bootstrap";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { api } from "../../api";
+import { useUser } from "../../hooks/useUser";
 
 interface Props {
 	setURL: (path: string, slug: string) => void,
@@ -16,14 +17,22 @@ const AuthPage: React.FC<Props> = ({ setURL }) => {
 
 	const [login, setLogin] = useState("");
 	const [password, setPassword] = useState("");
-	
-	const signIn = () => {
-		api.api.signInCreate({
-			login: login,
-			password: password,
-		})
-			.then(res => console.log(res))
-			.catch(err => console.log(err.response.data))
+	const navigate = useNavigate();
+	const { authorize } = useUser();
+
+	const signIn = async () => {
+		try {
+			const response = await api.api.signInCreate({
+				login: login,
+				password: password,
+			})
+			if (response.status === 200) {
+				await authorize();
+				navigate("/star");
+			}
+		} catch (error: any) {
+			console.log(error)
+		}
 	}
 
 	return (

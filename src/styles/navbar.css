@@ -3,10 +3,19 @@
 	padding: 1em 2em 1em 2em;
 }
 
-.container {
-	width: 50%;
+.navbar__container{
+	width: 30%;
 }
 
 .navbar_item {
 	margin-left: 2em;
+}
+
+.icon {
+	height: 2em;
+	margin-left: 2em;
+}
+
+.icon:hover {
+	cursor: pointer;
 }

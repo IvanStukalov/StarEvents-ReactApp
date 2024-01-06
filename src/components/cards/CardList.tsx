@@ -1,13 +1,19 @@
 import React from 'react';
-import { Card, CardGroup, Col, Row } from "react-bootstrap";
-import { Star } from "../models/models.ts";
+import { Button, Card, CardGroup, Col, Row } from "react-bootstrap";
 import { Link } from 'react-router-dom';
+import { ModelsStar } from '../../api/Api.ts';
 
 interface Props {
-  starList: Star[];
+  starList: ModelsStar[],
+  isMain: boolean,
 }
 
-const CardList: React.FC<Props> = ({ starList }) => {
+const CardList: React.FC<Props> = ({ starList, isMain }) => {
+  const toCart = (event: any) => {
+    event.preventDefault();
+
+  }
+
   return (
     <>
       <CardGroup className="card-list">
@@ -25,10 +31,14 @@ const CardList: React.FC<Props> = ({ starList }) => {
                     ></div>
                     <Card.Body className="card-body">
 
-                      <div>
+                      <div className="card-info">
                         <Card.Title>{star.name}</Card.Title>
                         <Card.Text>{star.description}</Card.Text>
                       </div>
+
+                      {isMain &&
+                        <Button variant="primary" onClick={toCart}>Добавить в корзину</Button>
+                      }
 
                     </Card.Body>
                   </Link>

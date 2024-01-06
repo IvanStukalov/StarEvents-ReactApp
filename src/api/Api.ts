@@ -22,11 +22,6 @@ export interface ModelsEvent {
   status?: string;
 }
 
-export interface ModelsEventMsg {
-  creator_id?: number;
-  star_id?: number;
-}
-
 export interface ModelsStar {
   age?: number;
   description?: string;
@@ -303,7 +298,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/api/event/{id}
      */
     eventDetail: (id: number, params: RequestParams = {}) =>
-      this.request<ModelsEvent, string>({
+      this.request<Record<string, any>, string>({
         path: `/api/event/${id}`,
         method: "GET",
         type: ContentType.Json,
@@ -494,7 +489,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * @description "Удаляет звезду из события по ее ID"
      *
-     * @tags "События"
+     * @tags Событие-Звезды
      * @name StarEventStarIdDelete
      * @summary "Удалить звезду из события"
      * @request DELETE:/api/star-event/{star-id}
@@ -516,11 +511,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Добавить звезду в событие
      * @request POST:/api/star/event
      */
-    starEventCreate: (id: number, message: ModelsEventMsg, params: RequestParams = {}) =>
+    starEventCreate: (
+      query: {
+        /** ID звезды */
+        star_id: number;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<string, string>({
         path: `/api/star/event`,
         method: "POST",
-        body: message,
+        query: query,
         type: ContentType.Json,
         format: "json",
         ...params,

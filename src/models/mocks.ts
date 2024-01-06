@@ -2,7 +2,7 @@ import { Star } from "./models";
 
 export const StarListMock: Star[] = [
 	{
-		star_id: 0,
+		star_id: 1,
 		name: "Солнце",
 		description: "Наша родная звезда, которая светит нам и греет нас",
 		distance: 0,
@@ -12,7 +12,7 @@ export const StarListMock: Star[] = [
 		is_active: true,
 	},
 	{
-		star_id: 1,
+		star_id: 2,
 		name: "Проксима Центавра",
 		description:
 			"Звезда, красный карлик, относящаяся к звёздной системе Альфа Центавра, ближайшая к Солнцу звезда",
@@ -23,7 +23,7 @@ export const StarListMock: Star[] = [
 		is_active: true,
 	},
 	{
-		star_id: 2,
+		star_id: 3,
 		name: "Звезда Барнарда",
 		description: "Одиночная звезда в созвездии Змееносца",
 		distance: 5.96,
@@ -33,7 +33,7 @@ export const StarListMock: Star[] = [
 		is_active: true,
 	},
 	{
-		star_id: 3,
+		star_id: 4,
 		name: "Сириус",
 		description: "Ярчайшая звезда ночного неба",
 		distance: 8.6,
@@ -43,7 +43,7 @@ export const StarListMock: Star[] = [
 		is_active: true,
 	},
 	{
-		star_id: 4,
+		star_id: 5,
 		name: "Лейтен 726-8",
 		description: "Двойная звезда в созвездии Кита",
 		distance: 8.73,
