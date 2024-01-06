@@ -495,7 +495,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request DELETE:/api/star-event/{star-id}
      */
     starEventStarIdDelete: (starId: number, params: RequestParams = {}) =>
-      this.request<ModelsEvent, string>({
+      this.request<Record<string, any>, string>({
         path: `/api/star-event/${starId}`,
         method: "DELETE",
         type: ContentType.Json,
@@ -518,7 +518,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       },
       params: RequestParams = {},
     ) =>
-      this.request<string, string>({
+      this.request<number, string>({
         path: `/api/star/event`,
         method: "POST",
         query: query,

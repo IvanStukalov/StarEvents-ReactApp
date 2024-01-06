@@ -9,7 +9,6 @@ import RegPage from "./components/pages/RegPage.tsx";
 import AuthPage from "./components/pages/AuthPage.tsx";
 import { api } from "./api/index.ts";
 import { useUser } from "./hooks/useUser.ts";
-import CartPage from "./components/pages/CartPage.tsx";
 import OrderListPage from "./components/pages/OrderListPage.tsx";
 import OrderItemPage from "./components/pages/OrderItemPage.tsx";
 
@@ -64,16 +63,21 @@ const App: React.FC = () => {
 
   return (
     <>
-      <NavBar path={path} slug={slug} />
+      <NavBar path={path} slug={slug} draftId={draftID} />
       <Routes>
-        <Route path="*" element={<StarListPage starList={starList} getStarList={getStarList} setURL={setURL} />} />
-        <Route path="/" element={<StarListPage starList={starList} getStarList={getStarList} setURL={setURL} />} />
+        {
+          starList && starList.length !== 0 &&
+          <>
+            <Route path="*" element={<StarListPage starList={starList} getStarList={getStarList} setURL={setURL} setDraftId={setDraftID} />} />
+            <Route path="/" element={<StarListPage starList={starList} getStarList={getStarList} setURL={setURL} setDraftId={setDraftID} />} />
+          </>
+        }
+
         <Route path="/star/:id" element={<StarItemPage setURL={setURL} />} />
         <Route path="/reg" element={<RegPage setURL={setURL} />} />
         <Route path="/auth" element={<AuthPage setURL={setURL} />} />
-        <Route path="/cart" element={<CartPage setURL={setURL} draftID={draftID} />} />
         <Route path="/orders" element={<OrderListPage setURL={setURL} />} />
-        <Route path="/orders/:id" element={<OrderItemPage setURL={setURL} />} />
+        <Route path="/orders/:id" element={<OrderItemPage setURL={setURL} draftId={draftID} setDraftId={setDraftID} />} />
       </Routes>
     </>
   )

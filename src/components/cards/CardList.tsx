@@ -1,54 +1,83 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Card, CardGroup, Col, Row } from "react-bootstrap";
 import { Link } from 'react-router-dom';
 import { ModelsStar } from '../../api/Api.ts';
+import { api } from '../../api/index.ts';
 
 interface Props {
   starList: ModelsStar[],
+  emergeList: (list: ModelsStar[]) => void,
   isMain: boolean,
+  isDraft: boolean,
+  setDraftId: (draftId: number) => void,
 }
 
-const CardList: React.FC<Props> = ({ starList, isMain }) => {
-  const toCart = (event: any) => {
-    event.preventDefault();
+const CardList: React.FC<Props> = ({ starList, emergeList, isMain, isDraft, setDraftId }) => {
+  const [list, setList] = useState(starList);
 
+  useEffect(() => {
+    setList(starList);
+  }, [starList]);
+
+  const addToCart = async (event: any) => {
+    event.preventDefault();
+    const response = await api.api.starEventCreate({ star_id: event.target.id });
+    setDraftId(response.data)
+  }
+
+  const removeFromCart = async (event: any) => {
+    event.preventDefault();
+    const response = await api.api.starEventStarIdDelete(event.target.id);
+    setList(response.data.star_list);
+    emergeList(response.data.star_list);
   }
 
   return (
     <>
-      <CardGroup className="card-list">
-        <Row xs={1} sm={2} md={3} className="card-row">
-          {
-            starList.map((star) => (
+      {
+        list && list.length !== 0 ?
+          <CardGroup className="card-list">
+            <Row xs={1} sm={2} md={3} className="card-row">
+              {
+                list.map((star) => (
 
-              <Col key={star.star_id}>
-                <Card key={star.star_id} className="star-card">
+                  <Col key={star.star_id}>
+                    <Card key={star.star_id} className="star-card">
 
-                  <Link to={`star/${star.star_id}`}>
+                      <Link to={`star/${star.star_id}`}>
 
-                    <div className="card-img"
-                      style={{ backgroundImage: `url(${star.image}), url('Star_Mock.jpeg')` }}
-                    ></div>
-                    <Card.Body className="card-body">
+                        <div className="card-img"
+                          style={{ backgroundImage: `url(${star.image}), url('Star_Mock.jpeg')` }}
+                        ></div>
+                        <Card.Body className="card-body">
 
-                      <div className="card-info">
-                        <Card.Title>{star.name}</Card.Title>
-                        <Card.Text>{star.description}</Card.Text>
-                      </div>
+                          <div className="card-info">
+                            <Card.Title>{star.name}</Card.Title>
+                            <Card.Text>{star.description}</Card.Text>
+                          </div>
 
-                      {isMain &&
-                        <Button variant="primary" onClick={toCart}>Добавить в корзину</Button>
-                      }
+                          {
+                            isMain &&
+                            <Button variant="primary" id={String(star.star_id)} onClick={addToCart}>Добавить в корзину</Button>
+                          }
 
-                    </Card.Body>
-                  </Link>
+                          {
+                            isDraft &&
+                            <Button variant="primary" id={String(star.star_id)} onClick={removeFromCart}>Удалить из корзины</Button>
+                          }
 
-                </Card>
-              </Col>
-            ))
-          }
-        </Row>
-      </CardGroup>
+                        </Card.Body>
+                      </Link>
+
+                    </Card>
+                  </Col>
+                ))
+              }
+            </Row>
+          </CardGroup>
+          :
+          <h3>Не добавлено ни одной звезды</h3>
+      }
     </>
   );
 };

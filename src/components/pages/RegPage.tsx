@@ -33,7 +33,7 @@ const RegPage: React.FC<Props> = ({ setURL }) => {
 				})
 				if (resSignIn.status === 200) {
 					authorize();
-					navigate("/star");
+					navigate("/");
 				}
 			}
 		} catch (error: any) {

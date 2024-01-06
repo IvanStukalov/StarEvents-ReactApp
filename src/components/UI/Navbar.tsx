@@ -1,21 +1,33 @@
 import { Button } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useUser } from '../../hooks/useUser';
 import { api } from '../../api';
 
 interface Props {
   path: string,
   slug: string,
+  draftId: number
 }
 
-const NavBar: React.FC<Props> = ({ path, slug }) => {
+const NavBar: React.FC<Props> = ({ path, slug, draftId }) => {
   const { login, isAuthorized, resetUser } = useUser();
 
-  const logout = () => {
+  const logout = async () => {
+    const resGetDraft = await api.api.eventDetail(draftId);
+    const draftStars = resGetDraft.data.star_list;
+    for (let star of draftStars) {
+      await api.api.starEventStarIdDelete(star.star_id);
+    }
+
     api.api.logoutCreate();
     resetUser();
+  }
+
+  const navigate = useNavigate();
+  const toCart = () => {
+    navigate(`/orders/${draftId}`)
   }
 
   return (
@@ -58,9 +70,7 @@ const NavBar: React.FC<Props> = ({ path, slug }) => {
         :
         <>
           <h5>{login}</h5>
-          <Link className="navbar_item" to="/cart">
-            <img src="src/assets/basket.svg" alt="" className="icon" />
-          </Link>
+          <Button onClick={toCart} disabled={draftId === 0} className="cart">Корзина</Button>
 
           <Link className="navbar_item" to="/star">
             <Button variant="secondary" onClick={logout}>Выйти</Button>

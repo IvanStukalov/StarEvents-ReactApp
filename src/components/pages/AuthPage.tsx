@@ -28,7 +28,7 @@ const AuthPage: React.FC<Props> = ({ setURL }) => {
 			})
 			if (response.status === 200) {
 				await authorize();
-				navigate("/star");
+				navigate("/");
 			}
 		} catch (error: any) {
 			console.log(error)

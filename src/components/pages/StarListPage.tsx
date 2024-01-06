@@ -7,9 +7,10 @@ interface Props {
 	starList: ModelsStar[],
 	getStarList: Function,
 	setURL: Function,
+	setDraftId: (draftId: number) => void,
 }
 
-const StarListPage: React.FC<Props> = ({ starList, getStarList, setURL }) => {
+const StarListPage: React.FC<Props> = ({ starList, getStarList, setURL, setDraftId }) => {
 	useEffect(() => {
 		setURL();
 	}, [])
@@ -17,8 +18,9 @@ const StarListPage: React.FC<Props> = ({ starList, getStarList, setURL }) => {
 	return (
 		<>
 			<Input label="Поиск звезд" placeholder="Введите название звезды" sendRequest={getStarList} />
-
-			<CardList starList={starList} isMain={true} />
+			<div className="star-list__page">
+				<CardList starList={starList} emergeList={() => {}} isMain={true} isDraft={false} setDraftId={setDraftId} />
+			</div>
 		</>
 	)
 }
