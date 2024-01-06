@@ -2,15 +2,17 @@ import React, { useEffect } from "react";
 import CardList from "../cards/CardList";
 import Input from "../UI/Input";
 import { ModelsStar } from "../../api/Api";
+import Loader from "../UI/Loader";
 
 interface Props {
 	starList: ModelsStar[],
 	getStarList: Function,
 	setURL: Function,
 	setDraftId: (draftId: number) => void,
+	loading: boolean
 }
 
-const StarListPage: React.FC<Props> = ({ starList, getStarList, setURL, setDraftId }) => {
+const StarListPage: React.FC<Props> = ({ starList, getStarList, setURL, setDraftId, loading }) => {
 	useEffect(() => {
 		setURL();
 	}, [])
@@ -19,7 +21,15 @@ const StarListPage: React.FC<Props> = ({ starList, getStarList, setURL, setDraft
 		<>
 			<Input label="Поиск звезд" placeholder="Введите название звезды" sendRequest={getStarList} />
 			<div className="star-list__page">
-				<CardList starList={starList} emergeList={() => {}} isMain={true} isDraft={false} setDraftId={setDraftId} />
+				{
+					starList && starList.length !== 0 &&
+						<CardList starList={starList} emergeList={() => { }} isMain={true} isDraft={false} setDraftId={setDraftId} />
+				}
+
+				{
+					loading &&
+					<Loader/>
+				}
 			</div>
 		</>
 	)

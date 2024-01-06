@@ -4,6 +4,7 @@ import { Button } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
 import { api } from "../../api";
 import { useUser } from "../../hooks/useUser";
+import Loader from "../UI/Loader";
 
 interface Props {
 	setURL: (path: string, slug: string) => void,
@@ -19,8 +20,10 @@ const AuthPage: React.FC<Props> = ({ setURL }) => {
 	const [password, setPassword] = useState("");
 	const navigate = useNavigate();
 	const { authorize } = useUser();
+	const [loading, setLoading] = useState<boolean>(false);
 
 	const signIn = async () => {
+		setLoading(true);
 		try {
 			const response = await api.api.signInCreate({
 				login: login,
@@ -33,6 +36,7 @@ const AuthPage: React.FC<Props> = ({ setURL }) => {
 		} catch (error: any) {
 			console.log(error)
 		}
+		setLoading(false);
 	}
 
 	return (
@@ -43,6 +47,11 @@ const AuthPage: React.FC<Props> = ({ setURL }) => {
 				<TextInput label="Пароль" placeholder="Введите пароль" type="password" value={password} onChange={setPassword} />
 
 				<Button variant="primary" onClick={signIn}>Войти</Button>
+
+				{
+					loading && 
+					<Loader/>
+				}
 			</div>
 		</>
 	);

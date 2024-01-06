@@ -4,6 +4,7 @@ import { Button } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
 import { api } from "../../api";
 import { useUser } from "../../hooks/useUser";
+import Loader from "../UI/Loader";
 
 interface Props {
 	setURL: (path: string, slug: string) => void,
@@ -19,8 +20,10 @@ const RegPage: React.FC<Props> = ({ setURL }) => {
 	const [password, setPassword] = useState("");
 	const navigate = useNavigate();
 	const { authorize } = useUser();
+	const [loading, setLoading] = useState<boolean>(false);
 
 	const signUp = async () => {
+		setLoading(true);
 		try {
 			const response = await api.api.signUpCreate({
 				login: login,
@@ -39,6 +42,7 @@ const RegPage: React.FC<Props> = ({ setURL }) => {
 		} catch (error: any) {
 			console.log(error.response.data)
 		}
+		setLoading(false);
 	}
 
 	return (
@@ -49,6 +53,11 @@ const RegPage: React.FC<Props> = ({ setURL }) => {
 				<TextInput label="Пароль" placeholder="Введите пароль" type="password" value={password} onChange={setPassword} />
 
 				<Button variant="primary" onClick={signUp}>Зарегистрироваться</Button>
+				
+				{
+					loading &&
+					<Loader/>
+				}
 			</div>
 		</>
 	);

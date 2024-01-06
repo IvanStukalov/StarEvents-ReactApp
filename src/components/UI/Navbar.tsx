@@ -8,20 +8,24 @@ import { api } from '../../api';
 interface Props {
   path: string,
   slug: string,
-  draftId: number
+  draftId: number,
+  setLoading: (loading: boolean) => void,
 }
 
-const NavBar: React.FC<Props> = ({ path, slug, draftId }) => {
+const NavBar: React.FC<Props> = ({ path, slug, draftId, setLoading }) => {
   const { login, isAuthorized, resetUser } = useUser();
 
   const logout = async () => {
+    setLoading(true);
     const resGetDraft = await api.api.eventDetail(draftId);
     const draftStars = resGetDraft.data.star_list;
     for (let star of draftStars) {
       await api.api.starEventStarIdDelete(star.star_id);
     }
 
-    api.api.logoutCreate();
+    await api.api.logoutCreate();
+    setLoading(false);
+
     resetUser();
   }
 
@@ -51,10 +55,16 @@ const NavBar: React.FC<Props> = ({ path, slug, draftId }) => {
         <Link to="/">
           <Navbar.Brand>Эволюция ближайших к Солнцу звезд</Navbar.Brand>
         </Link>
-        <div className="divider"/>
-        <Link to="/orders">
-          <Navbar.Brand>Заявки</Navbar.Brand>
-        </Link>
+
+        {
+          isAuthorized &&
+          <>
+            <div className="divider" />
+            <Link to="/orders">
+              <Navbar.Brand>Заявки</Navbar.Brand>
+            </Link>
+          </>
+        }
       </Container>
 
       {!isAuthorized ?

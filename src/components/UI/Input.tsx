@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button, Form } from "react-bootstrap";
 import Range from "./Range";
+import { useStarList } from "../../hooks/useStarList";
 
 interface Props {
 	label: string,
@@ -9,43 +10,35 @@ interface Props {
 }
 
 const Input: React.FC<Props> = ({ label, placeholder, sendRequest }) => {
-	const [value, setValue] = useState<string>("");
-
-	const [minDist, setMinDist] = useState<number>(0);
-	const [maxDist, setMaxDist] = useState<number>(100);
-	const [minAge, setMinAge] = useState<number>(0);
-	const [maxAge, setMaxAge] = useState<number>(13.8);
-	const [minMag, setMinMag] = useState<number>(-27);
-	const [maxMag, setMaxMag] = useState<number>(100);
+	const { distBot, distTop, ageBot, ageTop, magBot, magTop, searchValue,
+		setDistMin, setDistMax, setAgeMin, setAgeMax, setMagMin, setMagMax, setSearchName, } = useStarList();
 
 	const handleKeyPress = (event: any) => {
 		if (event.key === 'Enter') {
-			sendRequest(value, maxDist, minDist, maxAge, minAge, maxMag, minMag);
+			sendRequest(searchValue, distTop, distBot, ageTop, ageBot, magTop, magBot);
 		}
 	}
 
 	const getMinDist = (v: number) => {
-		setMinDist(v);
+		setDistMin(v);
 	}
-
 	const getMaxDist = (v: number) => {
-		setMaxDist(v);
+		setDistMax(v);
 	}
-
 	const getMinAge = (v: number) => {
-		setMinAge(v);
+		setAgeMin(v);
 	}
-
 	const getMaxAge = (v: number) => {
-		setMaxAge(v);
+		setAgeMax(v);
 	}
-
 	const getMinMag = (v: number) => {
-		setMinMag(v);
+		setMagMin(v);
 	}
-
 	const getMaxMag = (v: number) => {
-		setMaxMag(v);
+		setMagMax(v);
+	}
+	const inputHandler = (event: any) => {
+		setSearchName(event.target.value);
 	}
 
 	return (
@@ -60,27 +53,27 @@ const Input: React.FC<Props> = ({ label, placeholder, sendRequest }) => {
 							type="text"
 							placeholder={placeholder}
 							onKeyDown={handleKeyPress}
-							onChange={(event) => setValue(event.target.value)}
+							onChange={inputHandler}
 						/>
 
-						<Button variant="primary" onClick={() => sendRequest(value, maxDist, minDist, maxAge, minAge, maxMag, minMag)}>Найти</Button>
+						<Button variant="primary" onClick={() => sendRequest(searchValue, distTop, distBot, ageTop, ageBot, magTop, magBot)}>Найти</Button>
 					</div>
 				</Form.Group>
 
 				<div className="range__container">
 					<div className="range__block">
-						<Range label="Минимальное расстояние, св. лет" min={0} max={100} init={0} emergeData={getMinDist} />
-						<Range label="Максимальное расстояние, св. лет" min={0} max={100} init={100} emergeData={getMaxDist} />
+						<Range label="Минимальное расстояние, св. лет" min={0} max={100} init={distBot} emergeData={getMinDist} />
+						<Range label="Максимальное расстояние, св. лет" min={0} max={100} init={distTop} emergeData={getMaxDist} />
 					</div>
 
 					<div className="range__block">
-						<Range label="Минимальный возраст, млрд лет" min={0} max={13.8} init={0} emergeData={getMinAge} />
-						<Range label="Максимальный возраст, млрд лет" min={0} max={13.8} init={13.8} emergeData={getMaxAge} />
+						<Range label="Минимальный возраст, млрд лет" min={0} max={13.8} init={ageBot} emergeData={getMinAge} />
+						<Range label="Максимальный возраст, млрд лет" min={0} max={13.8} init={ageTop} emergeData={getMaxAge} />
 					</div>
 
 					<div className="range__block">
-						<Range label="Минимальная звездная величина" min={-27} max={100} init={-27} emergeData={getMinMag} />
-						<Range label="Максимальная звездная величина" min={-27} max={100} init={100} emergeData={getMaxMag} />
+						<Range label="Минимальная звездная величина" min={-27} max={100} init={magBot} emergeData={getMinMag} />
+						<Range label="Максимальная звездная величина" min={-27} max={100} init={magTop} emergeData={getMaxMag} />
 					</div>
 				</div>
 			</div>

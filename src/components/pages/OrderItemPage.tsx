@@ -4,6 +4,7 @@ import { ModelsStar } from "../../api/Api";
 import { api } from "../../api";
 import CardList from "../cards/CardList";
 import { Button } from "react-bootstrap";
+import Loader from "../UI/Loader";
 
 interface Props {
 	setURL: (path: string, slug: string) => void,
@@ -18,11 +19,15 @@ const OrderItemPage: React.FC<Props> = ({ setURL, draftId, setDraftId }) => {
 		getStarList();
 	}, [id]);
 
+	const [loading, setLoading] = useState<boolean>(false);
+
 	const getStarList = async () => {
+		setLoading(true);
 		const response = await api.api.eventDetail(Number(id));
 		console.log(response.data);
 		setStarList(response.data.star_list);
-		setURL(`/orders/${response.data.event.event_id}`, `Заявки / ${response.data.event.event_id}`);
+		setURL(`/orders`, `Заявки / ${response.data.event.event_id}`);
+		setLoading(false);
 	}
 
 	const navigate = useNavigate();
@@ -50,6 +55,11 @@ const OrderItemPage: React.FC<Props> = ({ setURL, draftId, setDraftId }) => {
 				{
 					draftId === id &&
 						<Button variant="primary" onClick={form} disabled={!starList || starList.length === 0} style={{display: "block", margin: "auto"}}>Сформировать</Button>
+				}
+
+				{
+					loading &&
+					<Loader/>
 				}
 			</div>
 		</>

@@ -11,13 +11,21 @@ import { api } from "./api/index.ts";
 import { useUser } from "./hooks/useUser.ts";
 import OrderListPage from "./components/pages/OrderListPage.tsx";
 import OrderItemPage from "./components/pages/OrderItemPage.tsx";
+import { useStarList } from "./hooks/useStarList.ts";
+import Loader from "./components/UI/Loader.tsx";
 
 const App: React.FC = () => {
+
   const [starList, setStarList] = useState<Star[]>([]);
   const [draftID, setDraftID] = useState(0);
+  const { distBot, distTop, ageBot, ageTop, magBot, magTop, searchValue } = useStarList();
 
-  const getStarList = (queryParam: string, distTop: number, distBot: number, ageTop: number, ageBot: number, magTop: number, magBot: number) => {
-    api.api.starList({
+  const [loading, setLoading] = useState<boolean>(false);
+  const [navloading, setNavLoading] = useState<boolean>(false);
+
+  const getStarList = async (queryParam: string, distTop: number, distBot: number, ageTop: number, ageBot: number, magTop: number, magBot: number) => {
+    setLoading(true);
+    await api.api.starList({
       name: queryParam ?? "",
       dist_top: distTop ?? "",
       dist_bot: distBot ?? "",
@@ -38,10 +46,11 @@ const App: React.FC = () => {
           star.magnitude > magBot && star.magnitude < magTop &&
           star.name.includes(queryParam)));
       })
+    setLoading(false);
   }
 
   useEffect(() => {
-    getStarList("", 100, 0, 13.8, 0, 100, -27);
+    getStarList(searchValue, distTop, distBot, ageTop, ageBot, magTop, magBot);
   }, []);
 
   const [path, setPath] = useState<string>("");
@@ -63,16 +72,19 @@ const App: React.FC = () => {
 
   return (
     <>
-      <NavBar path={path} slug={slug} draftId={draftID} />
+      <NavBar path={path} slug={slug} draftId={draftID} setLoading={setNavLoading} />
+      {
+        navloading &&
+        <Loader/>
+      }
       <Routes>
         {
-          starList && starList.length !== 0 &&
+          starList &&
           <>
-            <Route path="*" element={<StarListPage starList={starList} getStarList={getStarList} setURL={setURL} setDraftId={setDraftID} />} />
-            <Route path="/" element={<StarListPage starList={starList} getStarList={getStarList} setURL={setURL} setDraftId={setDraftID} />} />
+            <Route path="*" element={<StarListPage starList={starList} getStarList={getStarList} setURL={setURL} setDraftId={setDraftID} loading={loading} />} />
+            <Route path="/" element={<StarListPage starList={starList} getStarList={getStarList} setURL={setURL} setDraftId={setDraftID} loading={loading} />} />
           </>
         }
-
         <Route path="/star/:id" element={<StarItemPage setURL={setURL} />} />
         <Route path="/reg" element={<RegPage setURL={setURL} />} />
         <Route path="/auth" element={<AuthPage setURL={setURL} />} />
