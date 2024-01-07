@@ -53,6 +53,10 @@ const App: React.FC = () => {
     getStarList(searchValue, distTop, distBot, ageTop, ageBot, magTop, magBot);
   }, []);
 
+  useEffect(() => {
+    console.log("draft", draftID)
+  }, [draftID])
+
   const [path, setPath] = useState<string>("");
   const [slug, setSlug] = useState<string>("");
 

@@ -82,6 +82,7 @@ const OrderListPage: React.FC<Props> = ({ setURL }) => {
 						<input type="date" value={maxDate} onChange={(event) => setMaxDate(event.target.value)} />
 					</div>
 				</div>
+
 				<Table striped bordered hover>
 					<thead>
 						<tr>

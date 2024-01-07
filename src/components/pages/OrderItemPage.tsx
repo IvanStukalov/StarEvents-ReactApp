@@ -5,6 +5,8 @@ import { api } from "../../api";
 import CardList from "../cards/CardList";
 import { Button } from "react-bootstrap";
 import Loader from "../UI/Loader";
+import TextInput from "../UI/TextInput";
+import { useDraft } from "../../hooks/useDraft";
 
 interface Props {
 	setURL: (path: string, slug: string) => void,
@@ -19,14 +21,14 @@ const OrderItemPage: React.FC<Props> = ({ setURL, draftId, setDraftId }) => {
 		getStarList();
 	}, [id]);
 
+	const [eventName, setEventName] = useState();
 	const [loading, setLoading] = useState<boolean>(false);
-
 	const getStarList = async () => {
 		setLoading(true);
 		const response = await api.api.eventDetail(Number(id));
-		console.log(response.data);
 		setStarList(response.data.star_list);
-		setURL(`/orders`, `Заявки / ${response.data.event.event_id}`);
+		setEventName(response.data.event.name);
+		setURL(`/orders`, `Заявки / ${response.data.event.name}`);
 		setLoading(false);
 	}
 
@@ -41,25 +43,39 @@ const OrderItemPage: React.FC<Props> = ({ setURL, draftId, setDraftId }) => {
 		setStarList(list);
 	}
 
+	const updateEventName = async () => {
+		await api.api.eventUpdate(draftId, {name: draftName});
+	}
+
+	const { draftName, setDraftName } = useDraft();
+	const updateDraftName = (value: string) => {
+		setDraftName(value)
+	}
+
+
 	return (
 		<>
 			<div className="cart__page">
 				{
 					draftId !== id ?
-						<h2 className="cart__header">Заявка #{id}</h2>
+						<h2 className="cart__header">Заявка #{eventName}</h2>
 						:
-						<h2 className="cart__header">Заявка-черновик</h2>
+						<>
+							<h2 className="cart__header">Заявка-черновик</h2>
+							<TextInput label="Название события" placeholder="Введите название для нового события" type="text" value={draftName} onChange={updateDraftName} />
+							<Button variant="primary" onClick={updateEventName} style={{ height: "2.5em" }}>Установить</Button>
+						</>
 				}
-				<CardList starList={starList} emergeList={emergeList} isMain={false} isDraft={draftId === id} setDraftId={() => {}} />
+				<CardList starList={starList} emergeList={emergeList} isMain={false} isDraft={draftId === id} setDraftId={() => { }} />
 
 				{
 					draftId === id &&
-						<Button variant="primary" onClick={form} disabled={!starList || starList.length === 0} style={{display: "block", margin: "auto"}}>Сформировать</Button>
+					<Button variant="primary" onClick={form} disabled={!starList || starList.length === 0} style={{ display: "block", margin: "auto" }}>Сформировать</Button>
 				}
 
 				{
 					loading &&
-					<Loader/>
+					<Loader />
 				}
 			</div>
 		</>
