@@ -27,16 +27,18 @@ const OrderListPage: React.FC<Props> = ({ setURL }) => {
 			start_formation: minDate.length !== 0 ? `${minDate} 00:00:00` : "",
 			end_formation: maxDate.length !== 0 ? `${maxDate} 23:59:59` : "",
 		});
+		console.log(response.data)
+
 		const data = response.data;
 		for (let event of data) {
 			let formDate = new Date(String(event.formation_date));
-			event.formation_date = `${formDate.toLocaleString('ru-RU', { timeZone: 'Europe/London' })}`;
+			event.formation_date = event.formation_date !== "0001-01-01T00:00:00Z" ? `${formDate.toLocaleString('ru-RU', { timeZone: 'Europe/London' })}` : "-";
 
 			let creationDate = new Date(String(event.creation_date));
-			event.creation_date = `${creationDate.toLocaleString('ru-RU', { timeZone: 'Europe/London' })}`;
+			event.creation_date =`${creationDate.toLocaleString('ru-RU', { timeZone: 'Europe/London' })}`;
 
 			let completionDate = new Date(String(event.completion_date));
-			event.completion_date = `${completionDate.toLocaleString('ru-RU', { timeZone: 'Europe/London' })}`;
+			event.completion_date = event.completion_date !== "0001-01-01T00:00:00Z" ? `${completionDate.toLocaleString('ru-RU', { timeZone: 'Europe/London' })}` : "-";
 		}
 		setEventList(data);
 		setLoading(false);
