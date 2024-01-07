@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Dropdown, Table } from "react-bootstrap";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { api } from "../../api";
 import { ModelsEvent } from "../../api/Api";
 import { useEventList } from "../../hooks/useEventList";
