@@ -13,7 +13,7 @@ interface Props {
 }
 
 const NavBar: React.FC<Props> = ({ path, slug, draftId, setLoading }) => {
-  const { login, isAuthorized, resetUser } = useUser();
+  const { login, isAuthorized, isAdmin, resetUser } = useUser();
 
   const logout = async () => {
     setLoading(true);
@@ -80,7 +80,10 @@ const NavBar: React.FC<Props> = ({ path, slug, draftId, setLoading }) => {
         :
         <>
           <h5>{login}</h5>
-          <Button onClick={toCart} disabled={draftId === 0} className="cart">Корзина</Button>
+          {
+            !isAdmin &&
+            <Button onClick={toCart} disabled={draftId === 0} className="cart">Корзина</Button>
+          }
 
           <Link className="navbar_item" to="/star">
             <Button variant="secondary" onClick={logout}>Выйти</Button>

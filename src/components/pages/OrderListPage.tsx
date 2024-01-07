@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Dropdown, Table } from "react-bootstrap";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { api } from "../../api";
 import { ModelsEvent } from "../../api/Api";
 import { useEventList } from "../../hooks/useEventList";
@@ -48,6 +48,10 @@ const OrderListPage: React.FC<Props> = ({ setURL }) => {
 		getEventList();
 	}, [status, minDate, maxDate]);
 
+	const navigate = useNavigate();
+	const redirect = (event: any) => {
+		navigate(`/orders/${event.currentTarget.id}`)
+	}
 
 	return (
 		<>
@@ -102,12 +106,8 @@ const OrderListPage: React.FC<Props> = ({ setURL }) => {
 					<tbody>
 						{
 							eventList.map((event) => (
-								<tr key={event.event_id}>
-									<th>
-										<Link to={`/orders/${event.event_id}`}>
-											{event.event_id}
-										</Link>
-									</th>
+								<tr id={String(event.event_id)} key={event.event_id} onClick={redirect}>
+									<th>{event.event_id}</th>
 									<th>{event.name}</th>
 									<th>{event.creator}</th>
 									<th>{event.status}</th>
