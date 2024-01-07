@@ -19,8 +19,10 @@ const NavBar: React.FC<Props> = ({ path, slug, draftId, setLoading }) => {
     setLoading(true);
     const resGetDraft = await api.api.eventDetail(draftId);
     const draftStars = resGetDraft.data.star_list;
-    for (let star of draftStars) {
-      await api.api.starEventStarIdDelete(star.star_id);
+    if (draftStars && draftStars.length !== 0) {
+      for (let star of draftStars) {
+        await api.api.starEventStarIdDelete(star.star_id);
+      }
     }
 
     await api.api.logoutCreate();
