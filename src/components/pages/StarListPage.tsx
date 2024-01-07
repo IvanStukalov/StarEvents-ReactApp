@@ -33,7 +33,7 @@ const StarListPage: React.FC<Props> = ({ starList, getStarList, setURL, setDraft
 						isAdmin ?
 						<>
 							<Link to="/star/create/0">
-								<Button variant="primary" style={{ margin: "1em 0", width: "100%" }}>Добавить</Button>
+								<Button variant="primary" style={{ margin: "1em 0", width: "100%" }}>Создать</Button>
 							</Link>
 							<CardTable starList={starList} setStarChanged={setStarChanged} />
 						</>

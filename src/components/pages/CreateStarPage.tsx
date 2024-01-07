@@ -64,8 +64,10 @@ const CreateStarPage: React.FC<Props> = ({ setURL, setStarChanged }) => {
 	}
 
 	const [file, setFile] = useState<File>();
+	const [filepath, setFilepath] = useState("");
 	const changeFile = (event: any) => {
 		setFile(event.target.files[0]);
+		setFilepath(URL.createObjectURL(event.target.files[0]));
 	}
 
 	const navigate = useNavigate();
@@ -109,7 +111,7 @@ const CreateStarPage: React.FC<Props> = ({ setURL, setStarChanged }) => {
 				}
 
 				<Card style={{ padding: "1em" }}>
-					<div style={{ backgroundImage: `url(${star.image}), url('/Star_Mock.jpeg')` }} className="create-star__img"></div>
+					<div style={{ backgroundImage: `url(${filepath}), url(${star.image}), url('/Star_Mock.jpeg')` }} className="create-star__img"></div>
 					<Form.Group controlId="formFile" className="mb-1" style={{ padding: "1em" }}>
 						<Form.Label>Выберите фото</Form.Label>
 						<Form.Control onChange={changeFile} type="file" />
