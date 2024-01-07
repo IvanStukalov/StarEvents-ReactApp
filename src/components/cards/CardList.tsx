@@ -3,6 +3,7 @@ import { Button, Card, CardGroup, Col, Row } from "react-bootstrap";
 import { Link } from 'react-router-dom';
 import { ModelsStar } from '../../api/Api.ts';
 import { api } from '../../api/index.ts';
+import { useUser } from '../../hooks/useUser.ts';
 
 interface Props {
   starList: ModelsStar[],
@@ -32,6 +33,8 @@ const CardList: React.FC<Props> = ({ starList, emergeList, isMain, isDraft, setD
     emergeList(response.data.star_list);
   }
 
+  const {isAuthorized} = useUser();
+
   return (
     <>
       {
@@ -57,12 +60,12 @@ const CardList: React.FC<Props> = ({ starList, emergeList, isMain, isDraft, setD
                           </div>
 
                           {
-                            isMain &&
+                            isMain && isAuthorized &&
                             <Button variant="primary" id={String(star.star_id)} onClick={addToCart}>Добавить в корзину</Button>
                           }
 
                           {
-                            isDraft &&
+                            isDraft && isAuthorized &&
                             <Button variant="primary" id={String(star.star_id)} onClick={removeFromCart}>Удалить из корзины</Button>
                           }
 
