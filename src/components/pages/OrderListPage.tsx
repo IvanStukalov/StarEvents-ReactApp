@@ -6,12 +6,15 @@ import { ModelsEvent } from "../../api/Api";
 import { useEventList } from "../../hooks/useEventList";
 import Loader from "../UI/Loader";
 import { useUser } from "../../hooks/useUser";
+import TextInput from "../UI/TextInput";
 
 interface Props {
 	setURL: (path: string, slug: string) => void,
 }
 
 const OrderListPage: React.FC<Props> = ({ setURL }) => {
+	const { isAdmin } = useUser();
+
 	const location = useLocation();
 	useEffect(() => {
 		setURL(location.pathname, "Заявки");
@@ -23,12 +26,17 @@ const OrderListPage: React.FC<Props> = ({ setURL }) => {
 
 	const getEventList = async () => {
 		setLoading(true);
+		const pollingInterval = 1000; // Интервал в миллисекундах
+		setInterval(shortPolling, pollingInterval);
+		setLoading(false);
+	}
+
+	const shortPolling = async () => {
 		const response = await api.api.eventList({
 			status: status,
 			start_formation: minDate.length !== 0 ? `${minDate} 00:00:00` : "",
 			end_formation: maxDate.length !== 0 ? `${maxDate} 23:59:59` : "",
 		});
-		console.log(response.data)
 
 		const data = response.data;
 		for (let event of data) {
@@ -42,10 +50,7 @@ const OrderListPage: React.FC<Props> = ({ setURL }) => {
 			event.completion_date = event.completion_date !== "0001-01-01T00:00:00Z" ? `${completionDate.toLocaleString('ru-RU', { timeZone: 'Europe/London' })}` : "-";
 		}
 		setEventList(data);
-		setLoading(false);
 	}
-
-	const { isAdmin } = useUser();
 
 	useEffect(() => {
 		getEventList();
@@ -67,6 +72,12 @@ const OrderListPage: React.FC<Props> = ({ setURL }) => {
 		getEventList();
 	}
 
+	const [login, setLogin] = useState("");
+	const findUser = (value: string) => {
+		setLogin(value);
+		console.log(value)
+	}
+
 	return (
 		<>
 			<div className="cart__page">
@@ -84,7 +95,6 @@ const OrderListPage: React.FC<Props> = ({ setURL }) => {
 
 					<Dropdown.Menu>
 						<Dropdown.Item onClick={() => setStatus("")}>Все</Dropdown.Item>
-						<Dropdown.Item onClick={() => setStatus("Создано")}>Создано</Dropdown.Item>
 						<Dropdown.Item onClick={() => setStatus("Сформировано")}>Сформировано</Dropdown.Item>
 						<Dropdown.Item onClick={() => setStatus("Принято")}>Принято</Dropdown.Item>
 						<Dropdown.Item onClick={() => setStatus("Отклонено")}>Отклонено</Dropdown.Item>
@@ -101,6 +111,8 @@ const OrderListPage: React.FC<Props> = ({ setURL }) => {
 						<input type="date" value={maxDate} onChange={(event) => setMaxDate(event.target.value)} />
 					</div>
 				</div>
+
+				<TextInput label="Фильтрация по пользователю" placeholder="Имя пользователя" type="text" value={login} onChange={findUser}/>
 
 				<Table striped bordered hover style={{textAlign: "center"}}>
 					<thead>
@@ -125,7 +137,7 @@ const OrderListPage: React.FC<Props> = ({ setURL }) => {
 
 					<tbody>
 						{
-							eventList.map((event) => (
+							eventList.filter(event => event.creator?.includes(login)).map((event) => (
 								<tr id={String(event.event_id)} key={event.event_id} onClick={redirect} className="hover">
 									<th>{event.event_id}</th>
 									<th>{event.name}</th>
@@ -140,13 +152,13 @@ const OrderListPage: React.FC<Props> = ({ setURL }) => {
 										<>
 											<th>
 												{
-													event.status === "Сфоримровано" &&
+													event.status === "Сформировано" &&
 													<Button id={String(event.event_id)} onClick={changeStatusAccepted} variant="success">О</Button>
 												}
 											</th>
 											<th>
 												{
-													event.status === "Сфоримровано" &&
+													event.status === "Сформировано" &&
 													<Button id={String(event.event_id)} onClick={changeStatusCanceled} variant="danger">X</Button>
 												}
 											</th>
