@@ -33,8 +33,13 @@ const OrderItemPage: React.FC<Props> = ({ setURL, draftId, setDraftId }) => {
 	}
 
 	const navigate = useNavigate();
-	const form = () => {
+	const formEvent = () => {
 		api.api.eventFormUpdate();
+		navigate("/")
+		setDraftId(0);
+	}
+	const deleteEvent = () => {
+		api.api.eventDelete();
 		navigate("/")
 		setDraftId(0);
 	}
@@ -44,7 +49,7 @@ const OrderItemPage: React.FC<Props> = ({ setURL, draftId, setDraftId }) => {
 	}
 
 	const updateEventName = async () => {
-		await api.api.eventUpdate(draftId, {name: draftName});
+		await api.api.eventUpdate(draftId, { name: draftName });
 	}
 
 	const { draftName, setDraftName } = useDraft();
@@ -70,7 +75,10 @@ const OrderItemPage: React.FC<Props> = ({ setURL, draftId, setDraftId }) => {
 
 				{
 					draftId === id &&
-					<Button variant="primary" onClick={form} disabled={!starList || starList.length === 0} style={{ display: "block", margin: "auto" }}>Сформировать</Button>
+					<div style={{display: "flex", justifyContent: "center"}}>
+							<Button variant="primary" onClick={formEvent} disabled={!starList || starList.length === 0} style={{ margin: "0 1em", width: "10em" }}>Сформировать</Button>
+						<Button variant="danger" onClick={deleteEvent} disabled={!starList || starList.length === 0} style={{ margin: "0 1em", width: "10em" }}>Удалить</Button>
+					</div>
 				}
 
 				{
