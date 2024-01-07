@@ -35,6 +35,9 @@ const CreateStarPage: React.FC<Props> = ({ setURL, setStarChanged }) => {
 	const validateDigits = (value: string) => {
 		return /^\d*\.?\d*$/.test(value);
 	}
+	const validateMagnitude = (value: string) => {
+		return /^-?\d*\.?\d*$/.test(value);
+	}
 
 	const [isEmptyName, setIsEmptyName] = useState(star?.name?.length === 0);
 	const setName = (event: any) => {
@@ -55,7 +58,7 @@ const CreateStarPage: React.FC<Props> = ({ setURL, setStarChanged }) => {
 		}
 	}
 	const setMagnitude = (event: any) => {
-		if (validateDigits(event.target.value)) {
+		if (validateMagnitude(event.target.value)) {
 			setStar({ ...star, magnitude: event.target.value })
 		}
 	}

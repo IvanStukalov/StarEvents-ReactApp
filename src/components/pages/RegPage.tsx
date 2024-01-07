@@ -35,7 +35,7 @@ const RegPage: React.FC<Props> = ({ setURL }) => {
 					password: password,
 				})
 				if (resSignIn.status === 200) {
-					authorize();
+					await authorize();
 					navigate("/");
 				}
 			}

@@ -26,7 +26,7 @@ const OrderListPage: React.FC<Props> = ({ setURL }) => {
 
 	const getEventList = async () => {
 		setLoading(true);
-		const pollingInterval = 1000; // Интервал в миллисекундах
+		const pollingInterval = 3000; // Интервал в миллисекундах
 		setInterval(shortPolling, pollingInterval);
 		setLoading(false);
 	}

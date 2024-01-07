@@ -64,13 +64,16 @@ const App: React.FC = () => {
   }
 
   const { authorize } = useUser();
-  (async () => {
-    try {
-      await authorize();
-    } catch (error: any) {
-      console.log(error.response)
-    }
-  })();
+  useEffect(() => {
+    (async () => {
+      try {
+        await authorize();
+      } catch (error: any) {
+        console.log(error.response)
+      }
+    })();
+  }, []);
+
 
   return (
     <>
