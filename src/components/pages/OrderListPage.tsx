@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Dropdown, Table } from "react-bootstrap";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Button, Dropdown, Table } from "react-bootstrap";
+import { useLocation, useNavigate } from "react-router-dom";
 import { api } from "../../api";
 import { ModelsEvent } from "../../api/Api";
 import { useEventList } from "../../hooks/useEventList";
 import Loader from "../UI/Loader";
+import { useUser } from "../../hooks/useUser";
 
 interface Props {
 	setURL: (path: string, slug: string) => void,
@@ -35,7 +36,7 @@ const OrderListPage: React.FC<Props> = ({ setURL }) => {
 			event.formation_date = event.formation_date !== "0001-01-01T00:00:00Z" ? `${formDate.toLocaleString('ru-RU', { timeZone: 'Europe/London' })}` : "-";
 
 			let creationDate = new Date(String(event.creation_date));
-			event.creation_date =`${creationDate.toLocaleString('ru-RU', { timeZone: 'Europe/London' })}`;
+			event.creation_date = `${creationDate.toLocaleString('ru-RU', { timeZone: 'Europe/London' })}`;
 
 			let completionDate = new Date(String(event.completion_date));
 			event.completion_date = event.completion_date !== "0001-01-01T00:00:00Z" ? `${completionDate.toLocaleString('ru-RU', { timeZone: 'Europe/London' })}` : "-";
@@ -44,6 +45,8 @@ const OrderListPage: React.FC<Props> = ({ setURL }) => {
 		setLoading(false);
 	}
 
+	const { isAdmin } = useUser();
+
 	useEffect(() => {
 		getEventList();
 	}, [status, minDate, maxDate]);
@@ -51,6 +54,17 @@ const OrderListPage: React.FC<Props> = ({ setURL }) => {
 	const navigate = useNavigate();
 	const redirect = (event: any) => {
 		navigate(`/orders/${event.currentTarget.id}`)
+	}
+
+	const changeStatusAccepted = async (event: any) => {
+		event.stopPropagation();
+		await api.api.eventStatusUpdate(event.currentTarget.id, {status: "Принято"});
+		getEventList();
+	}
+	const changeStatusCanceled = async (event: any) => {
+		event.stopPropagation();
+		await api.api.eventStatusUpdate(event.currentTarget.id, { status: "Отклонено" });
+		getEventList();
 	}
 
 	return (
@@ -74,7 +88,6 @@ const OrderListPage: React.FC<Props> = ({ setURL }) => {
 						<Dropdown.Item onClick={() => setStatus("Сформировано")}>Сформировано</Dropdown.Item>
 						<Dropdown.Item onClick={() => setStatus("Принято")}>Принято</Dropdown.Item>
 						<Dropdown.Item onClick={() => setStatus("Отклонено")}>Отклонено</Dropdown.Item>
-						<Dropdown.Item onClick={() => setStatus("Завершено")}>Завершено</Dropdown.Item>
 					</Dropdown.Menu>
 				</Dropdown>
 
@@ -89,7 +102,7 @@ const OrderListPage: React.FC<Props> = ({ setURL }) => {
 					</div>
 				</div>
 
-				<Table striped bordered hover>
+				<Table striped bordered hover style={{textAlign: "center"}}>
 					<thead>
 						<tr>
 							<th>#</th>
@@ -100,13 +113,20 @@ const OrderListPage: React.FC<Props> = ({ setURL }) => {
 							<th>Сформировано</th>
 							<th>Завершено</th>
 							<th>Обработал</th>
+							{
+								isAdmin &&
+								<>
+									<th>Принять</th>
+									<th>Отклонить</th>
+								</>
+							}
 						</tr>
 					</thead>
 
 					<tbody>
 						{
 							eventList.map((event) => (
-								<tr id={String(event.event_id)} key={event.event_id} onClick={redirect}>
+								<tr id={String(event.event_id)} key={event.event_id} onClick={redirect} className="hover">
 									<th>{event.event_id}</th>
 									<th>{event.name}</th>
 									<th>{event.creator}</th>
@@ -115,6 +135,23 @@ const OrderListPage: React.FC<Props> = ({ setURL }) => {
 									<th>{event.formation_date}</th>
 									<th>{event.completion_date}</th>
 									<th>{event.moderator}</th>
+									{
+										isAdmin &&
+										<>
+											<th>
+												{
+													event.status === "Сфоримровано" &&
+													<Button id={String(event.event_id)} onClick={changeStatusAccepted} variant="success">О</Button>
+												}
+											</th>
+											<th>
+												{
+													event.status === "Сфоримровано" &&
+													<Button id={String(event.event_id)} onClick={changeStatusCanceled} variant="danger">X</Button>
+												}
+											</th>
+										</>
+									}
 								</tr>
 							))
 						}

@@ -13,6 +13,7 @@ import OrderListPage from "./components/pages/OrderListPage.tsx";
 import OrderItemPage from "./components/pages/OrderItemPage.tsx";
 import { useStarList } from "./hooks/useStarList.ts";
 import Loader from "./components/UI/Loader.tsx";
+import CreateStarPage from "./components/pages/CreateStarPage.tsx";
 
 const App: React.FC = () => {
 
@@ -49,13 +50,10 @@ const App: React.FC = () => {
     setLoading(false);
   }
 
+  const [starChanged, setStarChanged] = useState<any>(0);
   useEffect(() => {
     getStarList(searchValue, distTop, distBot, ageTop, ageBot, magTop, magBot);
-  }, []);
-
-  useEffect(() => {
-    console.log("draft", draftID)
-  }, [draftID])
+  }, [starChanged]);
 
   const [path, setPath] = useState<string>("");
   const [slug, setSlug] = useState<string>("");
@@ -79,14 +77,14 @@ const App: React.FC = () => {
       <NavBar path={path} slug={slug} draftId={draftID} setLoading={setNavLoading} />
       {
         navloading &&
-        <Loader/>
+        <Loader />
       }
       <Routes>
         {
           starList &&
           <>
-            <Route path="*" element={<StarListPage starList={starList} getStarList={getStarList} setURL={setURL} setDraftId={setDraftID} loading={loading} />} />
-            <Route path="/" element={<StarListPage starList={starList} getStarList={getStarList} setURL={setURL} setDraftId={setDraftID} loading={loading} />} />
+            <Route path="*" element={<StarListPage starList={starList} getStarList={getStarList} setURL={setURL} setDraftId={setDraftID} loading={loading} setStarChanged={setStarChanged} />} />
+            <Route path="/" element={<StarListPage starList={starList} getStarList={getStarList} setURL={setURL} setDraftId={setDraftID} loading={loading} setStarChanged={setStarChanged} />} />
           </>
         }
         <Route path="/star/:id" element={<StarItemPage setURL={setURL} />} />
@@ -94,6 +92,7 @@ const App: React.FC = () => {
         <Route path="/auth" element={<AuthPage setURL={setURL} />} />
         <Route path="/orders" element={<OrderListPage setURL={setURL} />} />
         <Route path="/orders/:id" element={<OrderItemPage setURL={setURL} draftId={draftID} setDraftId={setDraftID} />} />
+        <Route path="/star/create/:id" element={<CreateStarPage setURL={setURL} setStarChanged={setStarChanged} />} />
       </Routes>
     </>
   )

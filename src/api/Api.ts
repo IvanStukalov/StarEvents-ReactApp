@@ -473,7 +473,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * Изображение звезды
          * @format binary
          */
-        image: File;
+        image?: File;
       },
       params: RequestParams = {},
     ) =>

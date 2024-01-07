@@ -47,7 +47,7 @@ const CardList: React.FC<Props> = ({ starList, emergeList, isMain, isDraft, setD
                       <Link to={`star/${star.star_id}`}>
 
                         <div className="card-img"
-                          style={{ backgroundImage: `url(${star.image}), url('Star_Mock.jpeg')` }}
+                          style={{ backgroundImage: `url(${star.image}), url('/Star_Mock.jpeg')` }}
                         ></div>
                         <Card.Body className="card-body">
 
