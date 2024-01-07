@@ -75,8 +75,8 @@ const OrderItemPage: React.FC<Props> = ({ setURL, draftId, setDraftId }) => {
 
 				{
 					draftId === id &&
-					<div style={{display: "flex", justifyContent: "center"}}>
-							<Button variant="primary" onClick={formEvent} disabled={!starList || starList.length === 0} style={{ margin: "0 1em", width: "10em" }}>Сформировать</Button>
+					<div style={{ display: "flex", justifyContent: "center" }}>
+						<Button variant="primary" onClick={formEvent} disabled={!starList || starList.length === 0} style={{ margin: "0 1em", width: "10em" }}>Сформировать</Button>
 						<Button variant="danger" onClick={deleteEvent} disabled={!starList || starList.length === 0} style={{ margin: "0 1em", width: "10em" }}>Удалить</Button>
 					</div>
 				}
