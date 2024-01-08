@@ -19,6 +19,7 @@ export interface ModelsEvent {
   moderator?: string;
   moderator_id?: number;
   name?: string;
+  scanned_percent?: number;
   status?: string;
 }
 
@@ -37,13 +38,11 @@ export interface ModelsUser {
   isAdmin?: boolean;
   /** @maxLength 64 */
   login: string;
-  name?: string;
   /**
    * @minLength 8
    * @maxLength 64
    */
   password: string;
-  registrationDate?: string;
   userId?: number;
 }
 
@@ -273,6 +272,24 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
+     * @description Принимает JSON запрос, проверяет токен и сохраняет процент сканирования. Возвращает сообщение об успешности или ошибке.
+     *
+     * @tags События
+     * @name EventFinishScanningUpdate
+     * @summary Завершает процесс сканирования
+     * @request PUT:/api/event/finish-scanning
+     */
+    eventFinishScanningUpdate: (event: Record<string, any>, params: RequestParams = {}) =>
+      this.request<Record<string, string>, Record<string, string>>({
+        path: `/api/event/finish-scanning`,
+        method: "PUT",
+        body: event,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
      * @description Создает новое событие
      *
      * @tags События
@@ -284,6 +301,30 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<string, string>({
         path: `/api/event/form`,
         method: "PUT",
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Обновляет процент сканирования
+     *
+     * @tags События
+     * @name EventStartScanningUpdate
+     * @summary Начать сканирование
+     * @request PUT:/api/event/start-scanning
+     */
+    eventStartScanningUpdate: (
+      query: {
+        /** ID события для сканирования */
+        id: number;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<Record<string, string>, Record<string, string>>({
+        path: `/api/event/start-scanning`,
+        method: "PUT",
+        query: query,
         type: ContentType.Json,
         format: "json",
         ...params,

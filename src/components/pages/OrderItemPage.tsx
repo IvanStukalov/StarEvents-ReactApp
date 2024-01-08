@@ -28,7 +28,9 @@ const OrderItemPage: React.FC<Props> = ({ setURL, draftId, setDraftId }) => {
 		const response = await api.api.eventDetail(Number(id));
 		setStarList(response.data.star_list);
 		setEventName(response.data.event.name);
-		setURL(`/orders`, `Заявки / ${response.data.event.name}`);
+		setURL(`/orders`, response.data.event.name && response.data.event.name.length !== 0 ?
+			`Заявки / ${response.data.event.name}` :
+			`Заявки / ${response.data.event.event_id}`);
 		setLoading(false);
 	}
 
@@ -76,8 +78,8 @@ const OrderItemPage: React.FC<Props> = ({ setURL, draftId, setDraftId }) => {
 				{
 					draftId === id &&
 					<div style={{ display: "flex", justifyContent: "center" }}>
-							<Button variant="primary" onClick={formEvent} disabled={!starList || starList.length === 0} style={{ margin: "0 1em", width: "10em"}}>Сформировать</Button>
-							<Button variant="danger" onClick={deleteEvent} disabled={!starList || starList.length === 0} style={{ margin: "0 1em", width: "10em" }}>Удалить</Button>
+						<Button variant="primary" onClick={formEvent} disabled={!starList || starList.length === 0} style={{ margin: "0 1em", width: "10em" }}>Сформировать</Button>
+						<Button variant="danger" onClick={deleteEvent} disabled={!starList || starList.length === 0} style={{ margin: "0 1em", width: "10em" }}>Удалить</Button>
 					</div>
 				}
 

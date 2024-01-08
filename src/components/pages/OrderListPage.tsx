@@ -24,14 +24,14 @@ const OrderListPage: React.FC<Props> = ({ setURL }) => {
 	const [eventList, setEventList] = useState<ModelsEvent[]>([]);
 	const [loading, setLoading] = useState<boolean>(false);
 
-	const getEventList = async () => {
+	const shortPolling = async () => {
 		setLoading(true);
 		const pollingInterval = 3000; // Интервал в миллисекундах
-		setInterval(shortPolling, pollingInterval);
+		setInterval(getEventList, pollingInterval);
 		setLoading(false);
 	}
 
-	const shortPolling = async () => {
+	const getEventList = async () => {
 		const response = await api.api.eventList({
 			status: status,
 			start_formation: minDate.length !== 0 ? `${minDate} 00:00:00` : "",
@@ -53,6 +53,10 @@ const OrderListPage: React.FC<Props> = ({ setURL }) => {
 	}
 
 	useEffect(() => {
+		shortPolling();
+	}, []);
+
+	useEffect(() => {
 		getEventList();
 	}, [status, minDate, maxDate]);
 
@@ -63,13 +67,13 @@ const OrderListPage: React.FC<Props> = ({ setURL }) => {
 
 	const changeStatusAccepted = async (event: any) => {
 		event.stopPropagation();
-		await api.api.eventStatusUpdate(event.currentTarget.id, {status: "Принято"});
-		getEventList();
+		const eventId = event.currentTarget.id;
+		await api.api.eventStatusUpdate(eventId, {status: "Принято"});
+		await api.api.eventStartScanningUpdate({ id: eventId })
 	}
 	const changeStatusCanceled = async (event: any) => {
 		event.stopPropagation();
 		await api.api.eventStatusUpdate(event.currentTarget.id, { status: "Отклонено" });
-		getEventList();
 	}
 
 	const [login, setLogin] = useState("");
@@ -125,6 +129,7 @@ const OrderListPage: React.FC<Props> = ({ setURL }) => {
 							<th>Сформировано</th>
 							<th>Завершено</th>
 							<th>Обработал</th>
+							<th>% Сканирования</th>
 							{
 								isAdmin &&
 								<>
@@ -147,6 +152,7 @@ const OrderListPage: React.FC<Props> = ({ setURL }) => {
 									<th>{event.formation_date}</th>
 									<th>{event.completion_date}</th>
 									<th>{event.moderator}</th>
+									<th>{event.scanned_percent}</th>
 									{
 										isAdmin &&
 										<>
