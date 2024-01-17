@@ -4,9 +4,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { api } from "../../api";
 import { ModelsEvent } from "../../api/Api";
 import { useEventList } from "../../hooks/useEventList";
-import Loader from "../UI/Loader";
 import { useUser } from "../../hooks/useUser";
 import TextInput from "../UI/TextInput";
+import { useQuery } from "react-query";
 
 interface Props {
 	setURL: (path: string, slug: string) => void,
@@ -22,14 +22,6 @@ const OrderListPage: React.FC<Props> = ({ setURL }) => {
 
 	const { status, minDate, maxDate, setStatus, setMinDate, setMaxDate } = useEventList();
 	const [eventList, setEventList] = useState<ModelsEvent[]>([]);
-	const [loading, setLoading] = useState<boolean>(false);
-
-	const shortPolling = async () => {
-		setLoading(true);
-		const pollingInterval = 3000; // Интервал в миллисекундах
-		setInterval(getEventList, pollingInterval);
-		setLoading(false);
-	}
 
 	const getEventList = async () => {
 		const response = await api.api.eventList({
@@ -52,9 +44,7 @@ const OrderListPage: React.FC<Props> = ({ setURL }) => {
 		setEventList(data);
 	}
 
-	useEffect(() => {
-		shortPolling();
-	}, []);
+	useQuery('star-events', getEventList, { refetchInterval: 3000 });
 
 	useEffect(() => {
 		getEventList();
@@ -68,8 +58,7 @@ const OrderListPage: React.FC<Props> = ({ setURL }) => {
 	const changeStatusAccepted = async (event: any) => {
 		event.stopPropagation();
 		const eventId = event.currentTarget.id;
-		await api.api.eventStatusUpdate(eventId, {status: "Принято"});
-		await api.api.eventStartScanningUpdate({ id: eventId })
+		await api.api.eventStatusUpdate(eventId, { status: "Принято" });
 	}
 	const changeStatusCanceled = async (event: any) => {
 		event.stopPropagation();
@@ -85,7 +74,7 @@ const OrderListPage: React.FC<Props> = ({ setURL }) => {
 	return (
 		<>
 			<div className="cart__page">
-				<h2>Заявки</h2>
+				<h2>События</h2>
 
 				<Dropdown style={{ margin: "1em 0" }}>
 					<Dropdown.Toggle variant="primary" id="dropdown-basic">
@@ -116,14 +105,20 @@ const OrderListPage: React.FC<Props> = ({ setURL }) => {
 					</div>
 				</div>
 
-				<TextInput label="Фильтрация по пользователю" placeholder="Имя пользователя" type="text" value={login} onChange={findUser}/>
+				{
+					isAdmin &&
+					<TextInput label="Фильтрация по пользователю" placeholder="Имя пользователя" type="text" value={login} onChange={findUser} />
+				}
 
-				<Table striped bordered hover style={{textAlign: "center"}}>
+				<Table striped bordered hover style={{ textAlign: "center" }}>
 					<thead>
 						<tr>
 							<th>#</th>
 							<th>Событие</th>
-							<th>Создатель</th>
+							{
+								isAdmin &&
+								<th>Создатель</th>
+							}
 							<th>Статус</th>
 							<th>Создано</th>
 							<th>Сформировано</th>
@@ -146,7 +141,10 @@ const OrderListPage: React.FC<Props> = ({ setURL }) => {
 								<tr id={String(event.event_id)} key={event.event_id} onClick={redirect} className="hover">
 									<th>{event.event_id}</th>
 									<th>{event.name}</th>
-									<th>{event.creator}</th>
+									{
+										isAdmin &&
+										<th>{event.creator}</th>
+									}
 									<th>{event.status}</th>
 									<th>{event.creation_date}</th>
 									<th>{event.formation_date}</th>
@@ -175,12 +173,6 @@ const OrderListPage: React.FC<Props> = ({ setURL }) => {
 						}
 					</tbody>
 				</Table>
-
-				{
-					loading &&
-					<Loader />
-				}
-
 			</div>
 		</>
 	);

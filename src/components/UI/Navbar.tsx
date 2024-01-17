@@ -24,11 +24,13 @@ const NavBar: React.FC<Props> = ({ path, slug, draftId, setLoading }) => {
         await api.api.starEventStarIdDelete(star.star_id);
       }
     }
-
-    await api.api.logoutCreate();
-    setLoading(false);
-
+    try {
+      await api.api.logoutCreate();
+    } catch (error) {
+      console.log("Ошибка выхода из аккаунта");
+    }
     resetUser();
+    setLoading(false);
   }
 
   const navigate = useNavigate();
@@ -39,32 +41,46 @@ const NavBar: React.FC<Props> = ({ path, slug, draftId, setLoading }) => {
   return (
     <Navbar bg="dark" data-bs-theme="dark" className="navbar">
 
-      <Link to="/" className="breadcrump__item breadcrump__part">Звезды</Link>
+      <div style={{width: "20%", display: "flex"}}>
+        <Link to="/" className="breadcrump__item breadcrump__part">Звезды</Link>
 
-      {slug ?
-        <Link to={path} className="breadcrump__item">
-          <div className="breadcrump__part">/</div>
-          <div className="breadcrump__part">{slug}</div>
-        </Link>
-        : path &&
-        <Link to={path} className="breadcrump__item">
-          <div className="breadcrump__part">/</div>
-          <div className="breadcrump__part">{path}</div>
-        </Link>
-      }
+        {slug ?
+          <Link to={path} className="breadcrump__item">
+            <div className="breadcrump__part">/</div>
+            <div className="breadcrump__part">{slug}</div>
+          </Link>
+          : path &&
+          <Link to={path} className="breadcrump__item">
+            <div className="breadcrump__part">/</div>
+            <div className="breadcrump__part">{path}</div>
+          </Link>
+        }
+      </div>
 
       <Container className="navbar__container">
         <Link to="/">
           <Navbar.Brand>Эволюция ближайших к Солнцу звезд</Navbar.Brand>
         </Link>
 
+        <Link to="/">
+          <Navbar.Brand>Звезды</Navbar.Brand>
+        </Link>
+
         {
           isAuthorized &&
           <>
-            <div className="divider" />
             <Link to="/orders">
-              <Navbar.Brand>Заявки</Navbar.Brand>
+              <Navbar.Brand>События</Navbar.Brand>
             </Link>
+
+            {
+              isAdmin &&
+              <>
+                <Link to="/starTable">
+                  <Navbar.Brand>Таблица звезд</Navbar.Brand>
+                </Link>
+              </>
+            }
           </>
         }
       </Container>
@@ -88,7 +104,7 @@ const NavBar: React.FC<Props> = ({ path, slug, draftId, setLoading }) => {
           }
 
           <Link className="navbar_item" to="/star">
-            <Button variant="secondary" onClick={logout}>Выйти</Button>
+            <div onClick={logout}>Выйти</div>
           </Link>
         </>
       }

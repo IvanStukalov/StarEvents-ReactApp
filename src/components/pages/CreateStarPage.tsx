@@ -96,7 +96,7 @@ const CreateStarPage: React.FC<Props> = ({ setURL, setStarChanged }) => {
 				await api.api.starUpdateUpdate(id, newStar);
 			}
 			setStarChanged((v: any) => v + 1);
-			navigate("/");
+			navigate("/starTable");
 		}
 	}
 

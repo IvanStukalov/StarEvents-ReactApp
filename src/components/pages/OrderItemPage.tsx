@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { ModelsStar } from "../../api/Api";
+import { ModelsEvent, ModelsStar } from "../../api/Api";
 import { api } from "../../api";
 import CardList from "../cards/CardList";
 import { Button } from "react-bootstrap";
 import Loader from "../UI/Loader";
 import TextInput from "../UI/TextInput";
 import { useDraft } from "../../hooks/useDraft";
+import { useUser } from "../../hooks/useUser";
 
 interface Props {
 	setURL: (path: string, slug: string) => void,
@@ -21,13 +22,24 @@ const OrderItemPage: React.FC<Props> = ({ setURL, draftId, setDraftId }) => {
 		getStarList();
 	}, [id]);
 
-	const [eventName, setEventName] = useState();
+	const [event, setEvent] = useState<ModelsEvent>();
 	const [loading, setLoading] = useState<boolean>(false);
 	const getStarList = async () => {
 		setLoading(true);
 		const response = await api.api.eventDetail(Number(id));
 		setStarList(response.data.star_list);
-		setEventName(response.data.event.name);
+
+		const eventData = response.data.event;
+		let formDate = new Date(String(eventData.formation_date));
+		eventData.formation_date = eventData.formation_date !== "0001-01-01T00:00:00Z" ? `${formDate.toLocaleString('ru-RU', { timeZone: 'Europe/London' })}` : "-";
+
+		let creationDate = new Date(String(eventData.creation_date));
+		eventData.creation_date = `${creationDate.toLocaleString('ru-RU', { timeZone: 'Europe/London' })}`;
+
+		let completionDate = new Date(String(eventData.completion_date));
+		eventData.completion_date = eventData.completion_date !== "0001-01-01T00:00:00Z" ? `${completionDate.toLocaleString('ru-RU', { timeZone: 'Europe/London' })}` : "-";
+
+		setEvent(eventData);
 		setURL(`/orders`, response.data.event.name && response.data.event.name.length !== 0 ?
 			`Заявки / ${response.data.event.name}` :
 			`Заявки / ${response.data.event.event_id}`);
@@ -37,12 +49,13 @@ const OrderItemPage: React.FC<Props> = ({ setURL, draftId, setDraftId }) => {
 	const navigate = useNavigate();
 	const formEvent = () => {
 		api.api.eventFormUpdate();
-		navigate("/")
+
+		navigate("/orders");
 		setDraftId(0);
 	}
 	const deleteEvent = () => {
 		api.api.eventDelete();
-		navigate("/")
+		navigate("/");
 		setDraftId(0);
 	}
 
@@ -59,13 +72,26 @@ const OrderItemPage: React.FC<Props> = ({ setURL, draftId, setDraftId }) => {
 		setDraftName(value)
 	}
 
+	const { isAdmin } = useUser();
 
 	return (
 		<>
 			<div className="cart__page">
 				{
 					draftId !== id ?
-						<h2 className="cart__header">Заявка #{eventName}</h2>
+						<>
+							<h2 className="cart__header">Событие #{event?.name || id}</h2>
+							<div>Статус: {event?.status}</div>
+							<div>Дата создания: {event?.creation_date}</div>
+							<div>Дата формирования: {event?.formation_date}</div>
+							<div>Дата завершения: {event?.completion_date}</div>
+							{
+								isAdmin &&
+								<div>Пользователь: {event?.creator}</div>
+							}
+							<div>Обработал: {event?.moderator?.length !== 0 ? event?.moderator : "-"}</div>
+							<div>Процент cканирования: {event?.scanned_percent}</div>
+						</>
 						:
 						<>
 							<h2 className="cart__header">Заявка-черновик</h2>

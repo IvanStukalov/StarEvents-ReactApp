@@ -38,11 +38,6 @@ export interface ModelsUser {
   isAdmin?: boolean;
   /** @maxLength 64 */
   login: string;
-  /**
-   * @minLength 8
-   * @maxLength 64
-   */
-  password: string;
   userId?: number;
 }
 
@@ -232,7 +227,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags События
      * @name EventList
      * @summary Получить список событий
-     * @request GET:/api/event
+     * @request GET:/api/event/
      */
     eventList: (
       query?: {
@@ -246,7 +241,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       params: RequestParams = {},
     ) =>
       this.request<ModelsEvent[], string>({
-        path: `/api/event`,
+        path: `/api/event/`,
         method: "GET",
         query: query,
         type: ContentType.Json,
@@ -260,11 +255,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags События
      * @name EventDelete
      * @summary Удалить событие
-     * @request DELETE:/api/event
+     * @request DELETE:/api/event/
      */
     eventDelete: (params: RequestParams = {}) =>
       this.request<string, string>({
-        path: `/api/event`,
+        path: `/api/event/`,
         method: "DELETE",
         type: ContentType.Json,
         format: "json",
@@ -301,30 +296,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<string, string>({
         path: `/api/event/form`,
         method: "PUT",
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * @description Обновляет процент сканирования
-     *
-     * @tags События
-     * @name EventStartScanningUpdate
-     * @summary Начать сканирование
-     * @request PUT:/api/event/start-scanning
-     */
-    eventStartScanningUpdate: (
-      query: {
-        /** ID события для сканирования */
-        id: number;
-      },
-      params: RequestParams = {},
-    ) =>
-      this.request<Record<string, string>, Record<string, string>>({
-        path: `/api/event/start-scanning`,
-        method: "PUT",
-        query: query,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -455,12 +426,29 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
+     * @description "Удаляет звезду из события по ее ID"
+     *
+     * @tags Событие-Звезды
+     * @name StarEventStarIdDelete
+     * @summary "Удалить звезду из события"
+     * @request DELETE:/api/star-event/{star-id}
+     */
+    starEventStarIdDelete: (starId: number, params: RequestParams = {}) =>
+      this.request<Record<string, any>, string>({
+        path: `/api/star-event/${starId}`,
+        method: "DELETE",
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
      * @description Возвращает список звезд, отфильтрованных по заданным параметрам
      *
      * @tags Звезды
      * @name StarList
      * @summary Получить список звезд
-     * @request GET:/api/star
+     * @request GET:/api/star/
      */
     starList: (
       query?: {
@@ -482,7 +470,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       params: RequestParams = {},
     ) =>
       this.request<Record<string, any>, Record<string, any>>({
-        path: `/api/star`,
+        path: `/api/star/`,
         method: "GET",
         query: query,
         type: ContentType.Json,
@@ -496,7 +484,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags Звезды
      * @name StarCreate
      * @summary Создать звезду
-     * @request POST:/api/star
+     * @request POST:/api/star/
      */
     starCreate: (
       data: {
@@ -519,27 +507,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       params: RequestParams = {},
     ) =>
       this.request<string, string>({
-        path: `/api/star`,
+        path: `/api/star/`,
         method: "POST",
         body: data,
         type: ContentType.FormData,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * @description "Удаляет звезду из события по ее ID"
-     *
-     * @tags Событие-Звезды
-     * @name StarEventStarIdDelete
-     * @summary "Удалить звезду из события"
-     * @request DELETE:/api/star-event/{star-id}
-     */
-    starEventStarIdDelete: (starId: number, params: RequestParams = {}) =>
-      this.request<Record<string, any>, string>({
-        path: `/api/star-event/${starId}`,
-        method: "DELETE",
-        type: ContentType.Json,
         format: "json",
         ...params,
       }),

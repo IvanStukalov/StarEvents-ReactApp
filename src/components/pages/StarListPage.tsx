@@ -3,10 +3,6 @@ import CardList from "../cards/CardList";
 import Input from "../UI/Input";
 import { ModelsStar } from "../../api/Api";
 import Loader from "../UI/Loader";
-import { useUser } from "../../hooks/useUser";
-import CardTable from "../cards/CardTable";
-import { Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
 
 interface Props {
 	starList: ModelsStar[],
@@ -14,15 +10,12 @@ interface Props {
 	setURL: Function,
 	setDraftId: (draftId: number) => void,
 	loading: boolean,
-	setStarChanged: (counter: any) => void,
 }
 
-const StarListPage: React.FC<Props> = ({ starList, getStarList, setURL, setDraftId, loading, setStarChanged }) => {
+const StarListPage: React.FC<Props> = ({ starList, getStarList, setURL, setDraftId, loading }) => {
 	useEffect(() => {
 		setURL();
 	}, [])
-
-	const { isAdmin } = useUser();
 
 	return (
 		<>
@@ -30,15 +23,7 @@ const StarListPage: React.FC<Props> = ({ starList, getStarList, setURL, setDraft
 			<div className="star-list__page">
 				{
 					starList && starList.length !== 0 &&
-						isAdmin ?
-						<>
-							<Link to="/star/create/0">
-								<Button variant="primary" style={{ margin: "1em 0", width: "100%" }}>Создать</Button>
-							</Link>
-							<CardTable starList={starList} setStarChanged={setStarChanged} />
-						</>
-						:
-						<CardList starList={starList} emergeList={() => { }} isMain={true} isDraft={false} setDraftId={setDraftId} />
+					<CardList starList={starList} emergeList={() => { }} isMain={true} isDraft={false} setDraftId={setDraftId} />
 				}
 
 				{

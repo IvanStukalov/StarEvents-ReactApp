@@ -33,7 +33,7 @@ const CardList: React.FC<Props> = ({ starList, emergeList, isMain, isDraft, setD
     emergeList(response.data.star_list);
   }
 
-  const {isAuthorized} = useUser();
+  const {isAuthorized, isAdmin} = useUser();
 
   return (
     <>
@@ -47,7 +47,7 @@ const CardList: React.FC<Props> = ({ starList, emergeList, isMain, isDraft, setD
                   <Col key={star.star_id}>
                     <Card key={star.star_id} className="star-card">
 
-                      <Link to={`star/${star.star_id}`}>
+                      <Link to={`/star/${star.star_id}`}>
 
                         <div className="card-img"
                           style={{ backgroundImage: `url(${star.image}), url('/Star_Mock.jpeg')` }}
@@ -60,12 +60,12 @@ const CardList: React.FC<Props> = ({ starList, emergeList, isMain, isDraft, setD
                           </div>
 
                           {
-                            isMain && isAuthorized &&
+                            isMain && isAuthorized && !isAdmin &&
                             <Button variant="primary" id={String(star.star_id)} onClick={addToCart}>Добавить в корзину</Button>
                           }
 
                           {
-                            isDraft && isAuthorized &&
+                            isDraft && isAuthorized && !isAdmin &&
                             <Button variant="primary" id={String(star.star_id)} onClick={removeFromCart}>Удалить из корзины</Button>
                           }
 

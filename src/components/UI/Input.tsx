@@ -49,6 +49,7 @@ const Input: React.FC<Props> = ({ label, placeholder, sendRequest }) => {
 
 					<div className="input__container">
 						<Form.Control
+							value={searchValue}
 							className="input__field"
 							type="text"
 							placeholder={placeholder}

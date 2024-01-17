@@ -14,6 +14,7 @@ import OrderItemPage from "./components/pages/OrderItemPage.tsx";
 import { useStarList } from "./hooks/useStarList.ts";
 import Loader from "./components/UI/Loader.tsx";
 import CreateStarPage from "./components/pages/CreateStarPage.tsx";
+import StarTablePage from "./components/pages/StarTablePage.tsx";
 
 const App: React.FC = () => {
 
@@ -86,8 +87,9 @@ const App: React.FC = () => {
         {
           starList &&
           <>
-            <Route path="*" element={<StarListPage starList={starList} getStarList={getStarList} setURL={setURL} setDraftId={setDraftID} loading={loading} setStarChanged={setStarChanged} />} />
-            <Route path="/" element={<StarListPage starList={starList} getStarList={getStarList} setURL={setURL} setDraftId={setDraftID} loading={loading} setStarChanged={setStarChanged} />} />
+            <Route path="*" element={<StarListPage starList={starList} getStarList={getStarList} setURL={setURL} setDraftId={setDraftID} loading={loading} />} />
+            <Route path="/" element={<StarListPage starList={starList} getStarList={getStarList} setURL={setURL} setDraftId={setDraftID} loading={loading} />} />
+            <Route path="/starTable" element={<StarTablePage starList={starList} getStarList={getStarList} setURL={setURL} loading={loading} setStarChanged={setStarChanged} />} />
           </>
         }
         <Route path="/star/:id" element={<StarItemPage setURL={setURL} />} />
