@@ -6,16 +6,14 @@ import CardList from "../cards/CardList";
 import { Button } from "react-bootstrap";
 import Loader from "../UI/Loader";
 import TextInput from "../UI/TextInput";
-import { useDraft } from "../../hooks/useDraft";
 import { useUser } from "../../hooks/useUser";
 
 interface Props {
 	setURL: (path: string, slug: string) => void,
-	draftId: number,
 	setDraftId: (draftId: number) => void,
 }
 
-const OrderItemPage: React.FC<Props> = ({ setURL, draftId, setDraftId }) => {
+const OrderItemPage: React.FC<Props> = ({ setURL, setDraftId }) => {
 	const id = Number(useParams().id);
 	const [starList, setStarList] = useState<ModelsStar[]>([]);
 	useEffect(() => {
@@ -24,10 +22,15 @@ const OrderItemPage: React.FC<Props> = ({ setURL, draftId, setDraftId }) => {
 
 	const [event, setEvent] = useState<ModelsEvent>();
 	const [loading, setLoading] = useState<boolean>(false);
+	const [draftName, setDraftName] = useState<string>("");
+	const [isDraft, setIsDraft] = useState<boolean>(false);
+
 	const getStarList = async () => {
 		setLoading(true);
 		const response = await api.api.eventDetail(Number(id));
 		setStarList(response.data.star_list);
+		setDraftName(response.data.event.name);
+		setIsDraft(response.data.event.status === "Создано");
 
 		const eventData = response.data.event;
 		let formDate = new Date(String(eventData.formation_date));
@@ -41,22 +44,20 @@ const OrderItemPage: React.FC<Props> = ({ setURL, draftId, setDraftId }) => {
 
 		setEvent(eventData);
 		setURL(`/orders`, response.data.event.name && response.data.event.name.length !== 0 ?
-			`Заявки / ${response.data.event.name}` :
-			`Заявки / ${response.data.event.event_id}`);
+			`Заявки -> ${response.data.event.name}` :
+			`Заявки -> ${response.data.event.event_id}`);
 		setLoading(false);
 	}
 
 	const navigate = useNavigate();
 	const formEvent = () => {
 		api.api.eventFormUpdate();
-
 		navigate("/orders");
-		setDraftId(0);
 	}
 	const deleteEvent = () => {
+		setDraftId(0);
 		api.api.eventDelete();
 		navigate("/");
-		setDraftId(0);
 	}
 
 	const emergeList = (list: ModelsStar[]) => {
@@ -64,10 +65,12 @@ const OrderItemPage: React.FC<Props> = ({ setURL, draftId, setDraftId }) => {
 	}
 
 	const updateEventName = async () => {
-		await api.api.eventUpdate(draftId, { name: draftName });
+		await api.api.eventUpdate(id, { name: draftName });
+		const response = await api.api.eventDetail(Number(id));
+		setStarList(response.data.star_list);
+		setDraftName(response.data.event.name);
 	}
 
-	const { draftName, setDraftName } = useDraft();
 	const updateDraftName = (value: string) => {
 		setDraftName(value)
 	}
@@ -78,7 +81,7 @@ const OrderItemPage: React.FC<Props> = ({ setURL, draftId, setDraftId }) => {
 		<>
 			<div className="cart__page">
 				{
-					draftId !== id ?
+					!isDraft ?
 						<>
 							<h2 className="cart__header">Событие #{event?.name || id}</h2>
 							<div>Статус: {event?.status}</div>
@@ -94,18 +97,18 @@ const OrderItemPage: React.FC<Props> = ({ setURL, draftId, setDraftId }) => {
 						</>
 						:
 						<>
-							<h2 className="cart__header">Заявка-черновик</h2>
+							<h2 className="cart__header">Событие-черновик</h2>
 							<TextInput label="Название события" placeholder="Введите название для нового события" type="text" value={draftName} onChange={updateDraftName} />
 							<Button variant="primary" onClick={updateEventName} style={{ height: "2.5em" }}>Установить</Button>
 						</>
 				}
-				<CardList starList={starList} emergeList={emergeList} isMain={false} isDraft={draftId === id} setDraftId={() => { }} />
+				<CardList starList={starList} emergeList={emergeList} isMain={false} isDraft={isDraft} setDraftId={() => { }} />
 
 				{
-					draftId === id &&
+					isDraft &&
 					<div style={{ display: "flex", justifyContent: "center" }}>
 						<Button variant="primary" onClick={formEvent} disabled={!starList || starList.length === 0} style={{ margin: "0 1em", width: "10em" }}>Сформировать</Button>
-						<Button variant="danger" onClick={deleteEvent} disabled={!starList || starList.length === 0} style={{ margin: "0 1em", width: "10em" }}>Удалить</Button>
+						<Button variant="danger" onClick={deleteEvent} style={{ margin: "0 1em", width: "10em" }}>Удалить</Button>
 					</div>
 				}
 

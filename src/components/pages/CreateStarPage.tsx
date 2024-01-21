@@ -28,7 +28,7 @@ const CreateStarPage: React.FC<Props> = ({ setURL, setStarChanged }) => {
 		if (id === 0) {
 			setURL(location.pathname, "Создать звезду");
 		} else {
-			setURL(location.pathname, `Редактировать / ${star.name}`);
+			setURL(location.pathname, `Редактировать -> ${star.name}`);
 		}
 	}, [star]);
 
@@ -110,11 +110,11 @@ const CreateStarPage: React.FC<Props> = ({ setURL, setStarChanged }) => {
 						<h2>Редактирование звезды {star.name}</h2>
 				}
 
-				<Card style={{ padding: "1em" }}>
+				<Card style={{ padding: "1em", color: "black" }} bg="light">
 					<div style={{ backgroundImage: `url(${filepath}), url(${star.image}), url('/Star_Mock.jpeg')` }} className="create-star__img"></div>
 					<Form.Group controlId="formFile" className="mb-1" style={{ padding: "1em" }}>
 						<Form.Label>Выберите фото</Form.Label>
-						<Form.Control onChange={changeFile} type="file" />
+						<Form.Control className="input__field black-placeholder" onChange={changeFile} type="file" />
 					</Form.Group>
 
 					<Card.Body>
@@ -124,21 +124,21 @@ const CreateStarPage: React.FC<Props> = ({ setURL, setStarChanged }) => {
 								:
 								<div>*</div>
 						}
-						<Form.Control value={star.name || ""} onChange={setName} size="lg" type="text" placeholder="Название звезды" style={{ marginBottom: "1em" }} />
-						<Form.Control value={star.description || ""} onChange={setDescription} type="text" placeholder="Описание звезды" style={{ marginBottom: "1em" }} />
+						<Form.Control className="input__field black-placeholder" value={star.name || ""} onChange={setName} size="lg" type="text" placeholder="Название звезды" style={{ marginBottom: "1em" }} />
+						<Form.Control className="input__field black-placeholder" value={star.description || ""} onChange={setDescription} type="text" placeholder="Описание звезды" style={{ marginBottom: "1em" }} />
 
 						<div style={{ display: "flex", justifyContent: "space-between", marginBottom: "1em" }}>
 							<div style={{ width: "25%" }}>
 								<Form.Label>Расстояние, св. лет</Form.Label>
-								<Form.Control value={star.distance || ""} onChange={setDistance} type="text" placeholder="Расстояние до звезды" />
+								<Form.Control className="input__field black-placeholder" value={star.distance || ""} onChange={setDistance} type="text" placeholder="Расстояние до звезды" />
 							</div>
 							<div style={{ width: "25%" }}>
 								<Form.Label>Возраст, млрд лет</Form.Label>
-								<Form.Control value={star.age || ""} onChange={setAge} type="text" placeholder="Возраст звезды" />
+								<Form.Control className="input__field black-placeholder" value={star.age || ""} onChange={setAge} type="text" placeholder="Возраст звезды" />
 							</div>
 							<div style={{ width: "25%" }}>
 								<Form.Label>Звездная величина</Form.Label>
-								<Form.Control value={star.magnitude || ""} onChange={setMagnitude} type="text" placeholder="Звездная величина" />
+								<Form.Control className="input__field black-placeholder" value={star.magnitude || ""} onChange={setMagnitude} type="text" placeholder="Звездная величина" />
 							</div>
 						</div>
 

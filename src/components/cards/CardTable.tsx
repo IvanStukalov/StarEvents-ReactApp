@@ -28,7 +28,7 @@ const CardTable: React.FC<Props> = ({ starList, setStarChanged }) => {
 
 	return (
 		<>
-			<Table striped bordered hover>
+			<Table striped bordered hover variant="light">
 				<thead>
 					<tr>
 						<th>#</th>

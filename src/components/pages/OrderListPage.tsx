@@ -97,11 +97,11 @@ const OrderListPage: React.FC<Props> = ({ setURL }) => {
 				<div style={{ display: "flex", marginBottom: "1em" }}>
 					<div style={{ marginRight: "3em" }}>
 						<div>Формирование от</div>
-						<input type="date" value={minDate} onChange={(event) => setMinDate(event.target.value)} />
+						<input type="date" value={minDate} onChange={(event) => setMinDate(event.target.value)} style={{ backgroundColor: "white", color: "black" }} />
 					</div>
 					<div>
 						<div>Формирование до</div>
-						<input type="date" value={maxDate} onChange={(event) => setMaxDate(event.target.value)} />
+						<input type="date" value={maxDate} onChange={(event) => setMaxDate(event.target.value)} style={{ backgroundColor: "white", color: "black" }} />
 					</div>
 				</div>
 
@@ -110,7 +110,7 @@ const OrderListPage: React.FC<Props> = ({ setURL }) => {
 					<TextInput label="Фильтрация по пользователю" placeholder="Имя пользователя" type="text" value={login} onChange={findUser} />
 				}
 
-				<Table striped bordered hover style={{ textAlign: "center" }}>
+				<Table striped bordered hover variant="light" style={{ textAlign: "center" }}>
 					<thead>
 						<tr>
 							<th>#</th>

@@ -50,11 +50,12 @@ const Input: React.FC<Props> = ({ label, placeholder, sendRequest }) => {
 					<div className="input__container">
 						<Form.Control
 							value={searchValue}
-							className="input__field"
+							className="input__field black-placeholder"
 							type="text"
 							placeholder={placeholder}
 							onKeyDown={handleKeyPress}
 							onChange={inputHandler}
+							style={{ backgroundColor: "white", color: "black", borderRadius: "0" }}
 						/>
 
 						<Button variant="primary" onClick={() => sendRequest(searchValue, distTop, distBot, ageTop, ageBot, magTop, magBot)}>Найти</Button>

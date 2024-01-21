@@ -8,6 +8,11 @@
 @import "cartPage.css";
 @import "starListPage.css";
 
+body {
+	background-color: white;
+	color: black;
+}
+
 a {
 	text-decoration: none;
 	color: inherit;
@@ -28,9 +33,10 @@ a {
 
 .divider {
 	display: block;
-	width: 1px;
+	width: 2px;
 	height: 1.5em;
-	background-color: white;
+	margin-right: 0.5em;
+	background-color: red;
 }
 
 .table__img {
@@ -48,4 +54,18 @@ a {
 	width: 70%;
 	height: 15em;
 	margin: 1em auto;
+}
+
+.btn {
+	border-radius: 0;
+}
+
+.btn-primary {
+	background-color: #2050a0 !important;
+	border-color: #2050a0 !important;
+}
+
+.btn-danger {
+	background-color: #fa0a11 !important;
+	border-color: #fa0a11 !important;
 }

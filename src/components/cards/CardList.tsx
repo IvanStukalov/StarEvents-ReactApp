@@ -10,7 +10,7 @@ interface Props {
   emergeList: (list: ModelsStar[]) => void,
   isMain: boolean,
   isDraft: boolean,
-  setDraftId: (draftId: number) => void,
+  setDraftId: (draftId: any) => void,
 }
 
 const CardList: React.FC<Props> = ({ starList, emergeList, isMain, isDraft, setDraftId }) => {
@@ -22,8 +22,9 @@ const CardList: React.FC<Props> = ({ starList, emergeList, isMain, isDraft, setD
 
   const addToCart = async (event: any) => {
     event.preventDefault();
-    const response = await api.api.starEventCreate({ star_id: event.target.id });
-    setDraftId(response.data)
+    await api.api.starEventCreate({ star_id: event.target.id });
+    const response = await api.api.starList();
+    setDraftId(response.data.draft_id);
   }
 
   const removeFromCart = async (event: any) => {
@@ -45,7 +46,7 @@ const CardList: React.FC<Props> = ({ starList, emergeList, isMain, isDraft, setD
                 list.map((star) => (
 
                   <Col key={star.star_id}>
-                    <Card key={star.star_id} className="star-card">
+                    <Card key={star.star_id} className="star-card" bg="light" style={{color: "black"}}>
 
                       <Link to={`/star/${star.star_id}`}>
 

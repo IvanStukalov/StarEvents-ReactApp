@@ -34,7 +34,7 @@ const StarItemPage: React.FC<Props> = ({ setURL }) => {
 		<>
 			{
 				star ?
-					<Card className="star-card--item" >
+					<Card className="star-card--item" bg="light" style={{color: "black"}} >
 						<Card.Body className="star-card__body">
 							<Card.Title className="star-card__title">{star.name}</Card.Title>
 							<Card.Text>{star.description}</Card.Text>

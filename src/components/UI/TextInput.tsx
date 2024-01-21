@@ -24,11 +24,12 @@ const TextInput: React.FC<Props> = ({label, placeholder, type, value, onChange})
 
 				<div className="input__container">
 					<Form.Control
-						className="input__field"
+						className="input__field black-placeholder"
 						type={type}
 						placeholder={placeholder}
 						value={val}
 						onChange={inputHandler}
+						style={{ backgroundColor: "white", color: "black", borderRadius: "0" }}
 					/>
 				</div>
 			</Form.Group>

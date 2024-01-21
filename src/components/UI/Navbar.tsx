@@ -1,7 +1,7 @@
 import { Button } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useUser } from '../../hooks/useUser';
 import { api } from '../../api';
 
@@ -33,20 +33,17 @@ const NavBar: React.FC<Props> = ({ path, slug, draftId, setLoading }) => {
     setLoading(false);
   }
 
-  const navigate = useNavigate();
-  const toCart = () => {
-    navigate(`/orders/${draftId}`)
-  }
-
   return (
-    <Navbar bg="dark" data-bs-theme="dark" className="navbar">
+    <Navbar style={{ backgroundColor: "#2050a0", color: "white" }} className="navbar">
 
-      <div style={{width: "20%", display: "flex"}}>
+      <div style={{ width: "20%", display: "flex" }}>
+        <div className='divider'></div>
+
         <Link to="/" className="breadcrump__item breadcrump__part">Звезды</Link>
 
         {slug ?
           <Link to={path} className="breadcrump__item">
-            <div className="breadcrump__part">/</div>
+            <div className="breadcrump__part"> -&gt; </div>
             <div className="breadcrump__part">{slug}</div>
           </Link>
           : path &&
@@ -58,10 +55,6 @@ const NavBar: React.FC<Props> = ({ path, slug, draftId, setLoading }) => {
       </div>
 
       <Container className="navbar__container">
-        <Link to="/">
-          <Navbar.Brand>Эволюция ближайших к Солнцу звезд</Navbar.Brand>
-        </Link>
-
         <Link to="/">
           <Navbar.Brand>Звезды</Navbar.Brand>
         </Link>
@@ -98,10 +91,6 @@ const NavBar: React.FC<Props> = ({ path, slug, draftId, setLoading }) => {
         :
         <>
           <h5>{login}</h5>
-          {
-            !isAdmin &&
-            <Button onClick={toCart} disabled={draftId === 0} className="cart">Корзина</Button>
-          }
 
           <Link className="navbar_item" to="/star">
             <div onClick={logout}>Выйти</div>
