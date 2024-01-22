@@ -21,7 +21,7 @@ const CardList: React.FC<Props> = ({ starList }) => {
                   <Link to={`/StarEvents-ReactApp/star/${star.star_id}`}>
 
                     <div className="card-img"
-                      style={{ backgroundImage: `url(${star.image}), url('Star_Mock.jpeg')` }}
+                      style={{ backgroundImage: `url(/StarEvents-ReactApp/${star.image}), url('/StarEvents-ReactApp/Star_Mock.jpeg')` }}
                     ></div>
                     <Card.Body className="card-body">
 
