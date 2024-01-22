@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import NavBar from "./components/Navbar.tsx";
 import StarListPage from "./components/pages/StarListPage.tsx";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Link } from "react-router-dom";
 import StarItemPage from "./components/pages/StarItemPage.tsx";
 import { StarListMock } from "./models/mocks.ts";
 import { Star } from "./models/models.ts";
@@ -68,6 +68,10 @@ const App: React.FC = () => {
 
   return (
     <>
+      <div style={{ fontWeight: "bold", fontSize: "1.3em", marginLeft: "10%", height: "3em", display: "flex", alignItems: "center", color: "#717274" }}>
+        <Link to="/" >ЭВОЛЮЦИЯ БЛИЖАЙШИХ К СОЛНЦУ ЗВЕЗД</Link>
+      </div>
+
       <NavBar path={path} slug={slug} />
       <Routes>
         <Route path="*" element={<StarListPage starList={starList} getStarList={getStarList} emergeData={emergeData} />} />

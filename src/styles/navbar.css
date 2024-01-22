@@ -1,6 +1,7 @@
 .navbar {
-	border-bottom: 1px solid white;
 	padding: 1em 2em 1em 2em;
+	background-color: #2050a0;
+	color: white
 }
 
 .container {

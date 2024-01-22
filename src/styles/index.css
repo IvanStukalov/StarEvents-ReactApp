@@ -9,3 +9,25 @@ a {
 	text-decoration: none;
 	color: inherit;
 }
+
+.btn {
+	border-radius: 0;
+	background-color: #2050a0;
+}
+
+body {
+	background-color: white;
+	color: black;
+}
+
+.divider {
+	display: block;
+	width: 2px;
+	height: 1.5em;
+	margin-right: 0.5em;
+	background-color: red;
+}
+
+.col {
+	margin-bottom: 1em;
+}

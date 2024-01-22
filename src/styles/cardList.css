@@ -12,6 +12,8 @@
 .star-card {
   display: flex;
   height: 100%;
+  background-color: #2050a0;
+  color: white;
 }
 
 .card-img {

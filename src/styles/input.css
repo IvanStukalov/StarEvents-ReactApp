@@ -11,4 +11,11 @@
 
 .input__field {
 	width: 90%;
+	border-radius: 0;
+	background-color: white !important;
+	color: black !important;
+}
+
+.input__field::placeholder {
+	color: black;
 }
