@@ -5,6 +5,8 @@ import { Routes, Route, Link } from "react-router-dom";
 import StarItemPage from "./components/pages/StarItemPage.tsx";
 import { StarListMock } from "./models/mocks.ts";
 import { Star } from "./models/models.ts";
+import AuthPage from "./components/pages/AuthPage.tsx";
+import RegPage from "./components/pages/RegPage.tsx";
 
 const App: React.FC = () => {
   const [starList, setStarList] = useState<Star[]>([]);
@@ -77,6 +79,8 @@ const App: React.FC = () => {
         {/* <Route path="*" element={<StarListPage starList={starList} getStarList={getStarList} emergeData={emergeData} />} /> */}
         <Route path="/StarEvents-ReactApp/" element={<StarListPage starList={starList} getStarList={getStarList} emergeData={emergeData} />} />
         <Route path="/StarEvents-ReactApp/star/:id" element={<StarItemPage emergeData={emergeData} />} />
+        <Route path="/reg" element={<RegPage setURL={emergeData} />} />
+        <Route path="/auth" element={<AuthPage setURL={emergeData} />} />
       </Routes>
 
     </>
