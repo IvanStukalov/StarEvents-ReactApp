@@ -29,11 +29,11 @@ const NavBar: React.FC<Props> = ({ path, slug }) => {
       </div>
 
       <div style={{justifyContent: "end"}}>
-        <Link className="navbar_item navbar-btn" to="/auth">
+        <Link className="navbar_item navbar-btn" to="/StarEvents-ReactApp/auth">
           <Button variant="primary">Войти</Button>
         </Link>
 
-        <Link className="navbar_item navbar-btn" to="/reg">
+        <Link className="navbar_item navbar-btn" to="/StarEvents-ReactApp/reg">
           <Button variant="secondary">Регистрация</Button>
         </Link>
       </div>
