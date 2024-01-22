@@ -1,3 +1,4 @@
+import { Button } from 'react-bootstrap';
 import Navbar from 'react-bootstrap/Navbar';
 import { Link } from 'react-router-dom';
 
@@ -24,6 +25,14 @@ const NavBar: React.FC<Props> = ({ path, slug }) => {
           <div className="breadcrump__part">{path}</div>
         </Link>
       }
+
+      <Link className="navbar_item navbar-btn" to="/auth">
+        <Button variant="primary">Войти</Button>
+      </Link>
+
+      <Link className="navbar_item navbar-btn" to="/reg">
+        <Button variant="secondary">Регистрация</Button>
+      </Link>
     </Navbar>
   );
 }
