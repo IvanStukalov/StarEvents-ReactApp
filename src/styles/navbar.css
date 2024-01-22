@@ -7,3 +7,11 @@
 .container {
 	width: 50%;
 }
+
+.navbar_item {
+	margin-left: 2em;
+}
+
+.navbar-btn:hover {
+	border-top: 2px red solid;
+}
