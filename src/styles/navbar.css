@@ -17,3 +17,8 @@
 .navbar-btn:hover {
 	border-top: 2px red solid;
 }
+
+.nav-bc {
+	display: flex; 
+	justify-content: start;
+}
