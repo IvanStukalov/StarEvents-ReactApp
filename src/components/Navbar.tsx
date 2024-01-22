@@ -10,7 +10,7 @@ interface Props {
 const NavBar: React.FC<Props> = ({ path, slug }) => {
   return (
     <Navbar className="navbar">
-      <>
+      <div>
         <div className='divider'></div>
 
         <Link to="/StarEvents-ReactApp/" className="breadcrump__item breadcrump__part">Звезды</Link>
@@ -26,9 +26,9 @@ const NavBar: React.FC<Props> = ({ path, slug }) => {
             <div className="breadcrump__part">{path}</div>
           </Link>
         }
-      </>
+      </div>
 
-      <>
+      <div>
         <Link className="navbar_item navbar-btn" to="/auth">
           <Button variant="primary">Войти</Button>
         </Link>
@@ -36,7 +36,7 @@ const NavBar: React.FC<Props> = ({ path, slug }) => {
         <Link className="navbar_item navbar-btn" to="/reg">
           <Button variant="secondary">Регистрация</Button>
         </Link>
-      </>
+      </div>
     </Navbar>
   );
 }

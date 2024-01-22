@@ -79,8 +79,8 @@ const App: React.FC = () => {
         {/* <Route path="*" element={<StarListPage starList={starList} getStarList={getStarList} emergeData={emergeData} />} /> */}
         <Route path="/StarEvents-ReactApp/" element={<StarListPage starList={starList} getStarList={getStarList} emergeData={emergeData} />} />
         <Route path="/StarEvents-ReactApp/star/:id" element={<StarItemPage emergeData={emergeData} />} />
-        <Route path="/reg" element={<RegPage setURL={emergeData} />} />
-        <Route path="/auth" element={<AuthPage setURL={emergeData} />} />
+        <Route path="/StarEvents-ReactApp/reg" element={<RegPage setURL={emergeData} />} />
+        <Route path="/StarEvents-ReactApp/auth" element={<AuthPage setURL={emergeData} />} />
       </Routes>
 
     </>
