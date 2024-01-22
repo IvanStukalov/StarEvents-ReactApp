@@ -16,7 +16,7 @@ const CardList: React.FC<Props> = ({ starList }) => {
             starList.map((star, id) => (
 
               <Col key={id}>
-                <Card key={star.star_id} className="star-card">
+                <Card key={id} className="star-card">
 
                   <Link to={`/StarEvents-ReactApp/star/${star.star_id}`}>
 
