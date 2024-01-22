@@ -24,8 +24,8 @@ const StarItemPage: React.FC<Props> = ({ emergeData }) => {
 			emergeData(data.star_id, data.name);
 		} catch (error) {
 			console.log(error)
-			setStar(StarListMock[Number(id)]);
-			emergeData(StarListMock[Number(id)].star_id, StarListMock[Number(id)].name);
+			setStar(StarListMock[Number(id) + 1]);
+			emergeData(StarListMock[Number(id) + 1].star_id, StarListMock[Number(id) + 1].name);
 		}
 	}
 
