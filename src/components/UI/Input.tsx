@@ -55,7 +55,7 @@ const Input: React.FC<Props> = ({ label, placeholder, sendRequest }) => {
 							placeholder={placeholder}
 							onKeyDown={handleKeyPress}
 							onChange={inputHandler}
-							style={{ backgroundColor: "white", color: "black", borderRadius: "0" }}
+							style={{ backgroundColor: "white", color: "black", borderRadius: "0", width: "90%" }}
 						/>
 
 						<Button variant="primary" onClick={() => sendRequest(searchValue, distTop, distBot, ageTop, ageBot, magTop, magBot)}>Найти</Button>

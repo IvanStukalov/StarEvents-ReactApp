@@ -10,7 +10,7 @@ import { useUser } from "../../hooks/useUser";
 
 interface Props {
 	setURL: (path: string, slug: string) => void,
-	setDraftId: (draftId: number) => void,
+	setDraftId: Function,
 }
 
 const OrderItemPage: React.FC<Props> = ({ setURL, setDraftId }) => {
@@ -54,9 +54,9 @@ const OrderItemPage: React.FC<Props> = ({ setURL, setDraftId }) => {
 		api.api.eventFormUpdate();
 		navigate("/orders");
 	}
-	const deleteEvent = () => {
-		setDraftId(0);
-		api.api.eventDelete();
+	const deleteEvent = async () => {
+		await setDraftId(() => 0);
+		await api.api.eventDelete();
 		navigate("/");
 	}
 

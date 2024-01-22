@@ -54,23 +54,23 @@ const NavBar: React.FC<Props> = ({ path, slug, draftId, setLoading }) => {
         }
       </div>
 
-      <Container className="navbar__container">
+      <Container className="navbar__container" style={{justifyContent: "start"}}>
         <Link to="/">
-          <Navbar.Brand>Звезды</Navbar.Brand>
+          <Navbar.Brand className="navbar-btn">Звезды</Navbar.Brand>
         </Link>
 
         {
           isAuthorized &&
           <>
             <Link to="/orders">
-              <Navbar.Brand>События</Navbar.Brand>
+              <Navbar.Brand className="navbar-btn">События</Navbar.Brand>
             </Link>
 
             {
               isAdmin &&
               <>
                 <Link to="/starTable">
-                  <Navbar.Brand>Таблица звезд</Navbar.Brand>
+                  <Navbar.Brand className="navbar-btn">Таблица звезд</Navbar.Brand>
                 </Link>
               </>
             }
@@ -80,11 +80,11 @@ const NavBar: React.FC<Props> = ({ path, slug, draftId, setLoading }) => {
 
       {!isAuthorized ?
         <>
-          <Link className="navbar_item" to="/auth">
+          <Link className="navbar_item navbar-btn" to="/auth">
             <Button variant="primary">Войти</Button>
           </Link>
 
-          <Link className="navbar_item" to="/reg">
+          <Link className="navbar_item navbar-btn" to="/reg">
             <Button variant="secondary">Регистрация</Button>
           </Link>
         </>
@@ -92,7 +92,7 @@ const NavBar: React.FC<Props> = ({ path, slug, draftId, setLoading }) => {
         <>
           <h5>{login}</h5>
 
-          <Link className="navbar_item" to="/star">
+          <Link className="navbar_item navbar-btn" to="/star" style={{marginBottom: "5px"}}>
             <div onClick={logout}>Выйти</div>
           </Link>
         </>

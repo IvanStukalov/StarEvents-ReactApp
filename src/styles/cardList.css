@@ -12,6 +12,8 @@
 .star-card {
   display: flex;
   height: 100%;
+  background-color: #5986d3 !important;
+  color: white !important;
 }
 
 .card-img {
@@ -34,4 +36,8 @@
 .cart {
   margin-left: 15%;
   margin-top: 1em;
+}
+
+.col {
+  margin-bottom: 1em;
 }

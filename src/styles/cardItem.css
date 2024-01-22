@@ -4,6 +4,8 @@
   display: flex;
   flex-direction: row;
   margin: 3em auto;
+  background-color: #2050a0 !important;
+  color: white !important;
 }
 
 .star-card__body {

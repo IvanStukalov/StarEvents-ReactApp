@@ -68,7 +68,6 @@ const OrderListPage: React.FC<Props> = ({ setURL }) => {
 	const [login, setLogin] = useState("");
 	const findUser = (value: string) => {
 		setLogin(value);
-		console.log(value)
 	}
 
 	return (
