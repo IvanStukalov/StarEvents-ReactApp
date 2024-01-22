@@ -28,7 +28,7 @@ const NavBar: React.FC<Props> = ({ path, slug }) => {
         }
       </div>
 
-      <div>
+      <div style={{justifyContent: "end"}}>
         <Link className="navbar_item navbar-btn" to="/auth">
           <Button variant="primary">Войти</Button>
         </Link>
