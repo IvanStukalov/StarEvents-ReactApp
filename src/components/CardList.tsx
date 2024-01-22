@@ -13,9 +13,9 @@ const CardList: React.FC<Props> = ({ starList }) => {
       <CardGroup className="card-list">
         <Row xs={1} sm={2} md={3} className="card-row">
           {
-            starList.map((star) => (
+            starList.map((star, id) => (
 
-              <Col key={star.star_id}>
+              <Col key={id}>
                 <Card key={star.star_id} className="star-card">
 
                   <Link to={`/StarEvents-ReactApp/star/${star.star_id}`}>
