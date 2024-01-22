@@ -69,13 +69,13 @@ const App: React.FC = () => {
   return (
     <>
       <div style={{ fontWeight: "bold", fontSize: "1.3em", marginLeft: "10%", height: "3em", display: "flex", alignItems: "center", color: "#717274" }}>
-        <Link to="/StarEvents-ReactApp" >ЭВОЛЮЦИЯ БЛИЖАЙШИХ К СОЛНЦУ ЗВЕЗД</Link>
+        <Link to="/StarEvents-ReactApp/" >ЭВОЛЮЦИЯ БЛИЖАЙШИХ К СОЛНЦУ ЗВЕЗД</Link>
       </div>
 
       <NavBar path={path} slug={slug} />
       <Routes>
         {/* <Route path="*" element={<StarListPage starList={starList} getStarList={getStarList} emergeData={emergeData} />} /> */}
-        <Route path="/StarEvents-ReactApp" element={<StarListPage starList={starList} getStarList={getStarList} emergeData={emergeData} />} />
+        <Route path="/StarEvents-ReactApp/" element={<StarListPage starList={starList} getStarList={getStarList} emergeData={emergeData} />} />
         <Route path="/StarEvents-ReactApp/star/:id" element={<StarItemPage emergeData={emergeData} />} />
       </Routes>
 

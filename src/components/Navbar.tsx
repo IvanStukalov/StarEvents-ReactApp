@@ -11,7 +11,7 @@ const NavBar: React.FC<Props> = ({ path, slug }) => {
     <Navbar className="navbar">
       <div className='divider'></div>
 
-      <Link to="/StarEvents-ReactApp" className="breadcrump__item breadcrump__part">Home</Link>
+      <Link to="/StarEvents-ReactApp/" className="breadcrump__item breadcrump__part">Звезды</Link>
 
       {slug ?
         <Link to={`/StarEvents-ReactApp/star/${path}`} className="breadcrump__item">
