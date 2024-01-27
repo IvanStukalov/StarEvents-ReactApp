@@ -32,6 +32,7 @@ const CardList: React.FC<Props> = ({ starList, emergeList, isMain, isDraft, setD
     const response = await api.api.starEventStarIdDelete(event.target.id);
     setList(response.data.star_list);
     emergeList(response.data.star_list);
+    api.api.eventDetail(92);
   }
 
   const {isAuthorized, isAdmin} = useUser();

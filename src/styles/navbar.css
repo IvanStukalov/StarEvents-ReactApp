@@ -10,6 +10,10 @@
 	margin-left: 2em;
 }
 
+.navbar-btn {
+	border-top: 2px #2050a0 solid
+}
+
 .navbar-btn:hover {
 	border-top: 2px red solid;
 }
